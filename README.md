@@ -1,7 +1,8 @@
-# shell-format README
-## [https://github.com/foxundermoon/vs-shell-format](https://github.com/foxundermoon/vs-shell-format)
+# shell-format
 
-this is a shell script format vscode extension base shfmt [https://github.com/mvdan/sh](https://github.com/mvdan/sh)
+![screenshot](./shell_format.gif)
+
+this is a shell script format vscode extension base [shfmt](https://github.com/mvdan/sh)
 
 please  install shfmt before install this extension
 
@@ -22,6 +23,9 @@ or
 
 
 ## Release Notes
+### [0.1.2] - 2017-01-07
+- add icon & gif
+
 ### [0.1.1] - 2017-01-06
 - fix document
 
@@ -37,7 +41,10 @@ or
 
 -----------------------------------------------------------------------------------------------------------
 
+## Links
 
+### [gitRepos](https://github.com/foxundermoon/vs-shell-format)
+### [shfmt](https://github.com/mvdan/sh)
 
 
 **Enjoy shellscript!**
