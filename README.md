@@ -3,12 +3,15 @@
 
 this is a shell script format vscode extension base shfmt [https://github.com/mvdan/sh](https://github.com/mvdan/sh)
 
-please install it before install this extension
+please  install shfmt before install this extension
 
 `go get -u github.com/mvdan/sh/cmd/shfmt` 
 ## Features
+shellscript code  format
 
-<kbd>shift</kbd> <kbd> option</kbd> <kbd>f</kbd> to format current shell document
+<kbd>shift</kbd>+<kbd>option</kbd>+<kbd>f</kbd> 
+
+format current shell document
 
 or
 
@@ -19,11 +22,15 @@ or
 
 
 ## Release Notes
+### [0.1.1] - 2017-01-06
+- fix document
 
+### [0.1.0] - 2017-01-06
+- change format base on TextDocument
 
-### 0.0.1
+### [0.0.1] - 2017-01-05
+- add shell format base on file 
 
-just shell format 
 
 
 
