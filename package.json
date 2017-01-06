@@ -2,7 +2,7 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "the bash shell code format",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.8.0"
@@ -44,6 +44,7 @@
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
         "compile": "tsc -watch -p ./",
+        "clean": "rm -rf out/",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test"
     },

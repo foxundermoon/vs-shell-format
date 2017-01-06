@@ -9,18 +9,11 @@ import { isDiffToolAvailable, getEdits, getEditsFromUnifiedDiffStr } from '../sr
 export class Formatter {
     private formatCommand = 'shfmt';
 
-    // constructor() {
-    // 	let formatTool = vscode.workspace.getConfiguration('go')['formatTool'];
-    // 	if (formatTool) {
-    // 		this.formatCommand = formatTool;
-    // 	}
-    // }
-
     public formatDocument(document: vscode.TextDocument): Thenable<vscode.TextEdit[]> {
         return new Promise((resolve, reject) => {
-            let filename = document.fileName;
+            let filename = document.uri.path;  //document.fileName;
 
-            // let formatCommandBinPath = getBinPath(this.formatCommand);
+
             let formatFlags = /*vscode.workspace.getConfiguration('shell')['formatFlags'] ||*/[];
             // let canFormatToolUseDiff = vscode.workspace.getConfiguration('go')['useDiffForFormatting'] && isDiffToolAvailable();
             // if (canFormatToolUseDiff && formatFlags.indexOf('-d') === -1) {
@@ -41,7 +34,7 @@ export class Formatter {
                     };
 
                     let textEdits: vscode.TextEdit[] = [];
-                    let filePatch =  getEdits(filename, document.getText(), stdout);
+                    let filePatch = getEdits(filename, document.getText(), stdout);
 
                     filePatch.edits.forEach((edit) => {
                         textEdits.push(edit.apply());
@@ -52,6 +45,63 @@ export class Formatter {
                     reject('Internal issues while getting diff from formatted content');
                 }
             });
+        });
+    }
+    public formatDocumentWithContent(content: string, filename: string): Thenable<vscode.TextEdit[]> {
+        return new Promise((resolve, reject) => {
+            try {
+                let formatFlags = []; //todo add user configuration
+                let fmtSpawn = cp.spawn(this.formatCommand, formatFlags);
+                let output: Buffer[] = [];
+                let errorOutput: Buffer[] = [];
+                let textEdits: vscode.TextEdit[] = [];
+                fmtSpawn.stdout.on('data', chunk => {
+                    let bc: Buffer;
+                    if (chunk instanceof Buffer) {
+                        bc = chunk;
+                    } else {
+                        bc = new Buffer(chunk)
+                    }
+                    output.push(bc);
+                });
+                fmtSpawn.stderr.on('data', chunk => {
+                    let bc: Buffer;
+                    if (chunk instanceof Buffer) {
+                        bc = chunk;
+                    } else {
+                        bc = new Buffer(chunk)
+                    }
+                    errorOutput.push(bc);
+                });
+
+                fmtSpawn.on('close', code => {
+                    if (code == 0) {
+                        if (output.length == 0) {
+                            resolve(null);
+                        } else {
+                            let result = Buffer.concat(output).toString();
+                            let filePatch = getEdits(filename, content, result);
+
+                            filePatch.edits.forEach((edit) => {
+                                textEdits.push(edit.apply());
+                            });
+                            resolve(textEdits);
+                        }
+                    } else {
+                        let errMsg = "";
+                        if (errorOutput.length != 0) {
+                            Buffer.concat(errorOutput).toString();
+                        }
+                        // vscode.window.showWarningMessage('shell format error  please commit one issue to me:' + errMsg);
+                        reject(errMsg);
+                    }
+                })
+                fmtSpawn.stdin.write(content);
+                fmtSpawn.stdin.end();
+            } catch (e) {
+                reject('Internal issues when formatted content');
+            }
+
         });
     }
 }
@@ -68,16 +118,12 @@ export class ShellDocumentFormattingEditProvider implements vscode.DocumentForma
     }
 
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): Thenable<vscode.TextEdit[]> {
-        console.log("start format");
-        return document.save().then(() => {
-            let formatedText = this.formatter.formatDocument(document);
-            console.log(formatedText);
 
+        return document.save().then(() => {
+            // let formatedText = this.formatter.formatDocument(document);
+            let content = document.getText();
+            let formatedText = this.formatter.formatDocumentWithContent(content, document.fileName);
             return formatedText;
         });
     }
 }
-
-// package main; import \"fmt\"; func main() {fmt.Print(\"Hello\")}
-// package main; import \"fmt\"; import \"math\"; func main() {fmt.Print(\"Hello\")}
-// package main; import \"fmt\"; import \"gopkg.in/Shopify/sarama.v1\"; func main() {fmt.Print(sarama.V0_10_0_0)}
