@@ -1,4 +1,6 @@
 # shell-format
+![market](http://vsmarketplacebadge.apphb.com/version/foxundermoon.shell-format.svg)
+![install](http://vsmarketplacebadge.apphb.com/installs/foxundermoon.shell-format.svg)
 
 ![screenshot](./shell_format.gif)
 
@@ -16,7 +18,7 @@ format current shell document
 
 or
 
-<kbd>shift</kbd> <kbd>command</kbd> </kbd>p</kbd> then type `format shell with shfmt`
+<kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `format shell with shfmt`
 
 ## Requirements
 - [golang](https://golang.org/doc/install)
