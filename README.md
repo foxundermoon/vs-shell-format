@@ -19,7 +19,9 @@ or
 <kbd>shift</kbd> <kbd>command</kbd> </kbd>p</kbd> then type `format shell with shfmt`
 
 ## Requirements
-`go get -u github.com/mvdan/sh/cmd/shfmt`
+- [golang](https://golang.org/doc/install)
+- [shfmt](https://github.com/mvdan/sh#shfmt)
+ - Packages are available for Arch, Homebrew, NixOS and Void.
 
 
 ## Release Notes
