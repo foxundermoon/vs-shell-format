@@ -23,10 +23,21 @@ or
 ## Requirements
 - [golang](https://golang.org/doc/install)
 - [shfmt](https://github.com/mvdan/sh#shfmt)
- - Packages are available for Arch, Homebrew, NixOS and Void.
+- Packages are available for Arch, Homebrew, NixOS and Void.
+
+ ### you can also direct download binary excutable file and config `shellformat.path` 
+  [https://github.com/mvdan/sh/releases](https://github.com/mvdan/sh/releases)
+ 
+## advanced configuration
+
+- `shellformat.path`the shfmt fullpath  example [mac,linux]: `/usr/local/bin/shfmt`  [windows]: `C:\\bin\\shfmt.exe`
+- `shellformat.flag`shfmt -h  to see detail usage , example: `-i 4 -p`
 
 
 ## Release Notes
+
+## [0.1.3] - 2017-04-06
+- add command flag configuration
 ### [0.1.2] - 2017-01-07
 - add icon & gif
 
