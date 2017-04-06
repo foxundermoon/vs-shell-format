@@ -9,6 +9,7 @@ this is a shell script format vscode extension base [shfmt](https://github.com/m
 please  install shfmt before install this extension
 
 `go get -u github.com/mvdan/sh/cmd/shfmt` 
+or download excutable binary  file and config `shellformat.path` **do not require golang**
 ## Features
 shellscript code  format
 
@@ -25,7 +26,7 @@ or
 - [shfmt](https://github.com/mvdan/sh#shfmt)
 - Packages are available for Arch, Homebrew, NixOS and Void.
 
- ### you can also direct download binary excutable file and config `shellformat.path` 
+ ### you can also direct download binary excutable file  from 
   [https://github.com/mvdan/sh/releases](https://github.com/mvdan/sh/releases)
  
 ## advanced configuration
@@ -36,7 +37,7 @@ or
 
 ## Release Notes
 
-## [0.1.3] - 2017-04-06
+## [1.0.0] - 2017-04-06
 - add command flag configuration
 ### [0.1.2] - 2017-01-07
 - add icon & gif
