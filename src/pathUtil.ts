@@ -29,7 +29,7 @@ function correctBinname(binname: string) {
         return binname;
 }
 
-function fileExists(filePath: string): boolean {
+export function fileExists(filePath: string): boolean {
     try {
         return fs.statSync(filePath).isFile();
     } catch (e) {

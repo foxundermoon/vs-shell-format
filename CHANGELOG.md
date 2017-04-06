@@ -2,7 +2,8 @@
 All notable changes to the "shell-format" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
+## [0.1.3] - 2017-04-06
+- add command flag configuration
 ## [0.1.2] - 2017-01-07
 - add icon & gif
 
