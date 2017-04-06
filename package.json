@@ -2,7 +2,7 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "the bash shell code format",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.8.0"
