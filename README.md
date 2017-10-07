@@ -39,7 +39,7 @@ or
 
 - `shellformat.path`the shfmt fullpath  example [mac,linux]: `/usr/local/bin/shfmt`  [windows]: `C:\\bin\\shfmt.exe`
 - `shellformat.flag`shfmt -h  to see detail usage , example: `-i 4 -p`
-
+- `shellformat.showError` show error message when format. default true.
 
 ## Release Notes
 ## [1.1.0] - 2017-10-07
