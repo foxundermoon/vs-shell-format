@@ -4,7 +4,7 @@
 ![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
 
 
-![screenshot](./image/shell_format.gif)
+![screenshot](https://github.com/foxundermoon/vs-shell-format/raw/master/image/shell_format.gif)
 
 this is a shell script format vscode extension base [shfmt](https://github.com/mvdan/sh)
 
@@ -80,10 +80,10 @@ Your donation makes `shell-format` better:
 
 ## PayPal
 
-[![](./image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
+[![](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
 
 
 
 ###    Alipay(支付宝) / Wechat(微信)
 
-![](./image/donate.png)
+![ Alipay(支付宝) / Wechat(微信)](https://github.com/foxundermoon/vs-shell-format/blob/master/image/donate.png)
