@@ -4,7 +4,7 @@
 ![ratings](http://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
 
 
-![screenshot](./shell_format.gif)
+![screenshot](./image/shell_format.gif)
 
 this is a shell script format vscode extension base [shfmt](https://github.com/mvdan/sh)
 
