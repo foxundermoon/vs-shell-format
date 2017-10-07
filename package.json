@@ -53,7 +53,7 @@
                         "null"
                     ],
                     "default": null,
-                    "description": "the shfmt fullpath  example[ mac,linux ] /usr/local/bin/shfmt  [windows] C:/bin/shfmt.exe"
+                    "description": "the shfmt fullpath  example[ mac,linux ] /usr/local/bin/shfmt  [windows] C:/bin/shfmt.exe   download fron https://github.com/mvdan/sh/releases"
                 },
                 "shellformat.flag": {
                     "type": [

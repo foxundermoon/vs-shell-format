@@ -1,7 +1,7 @@
 # shell-format
-![version](http://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
-![install](http://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
-![ratings](http://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
+![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
+![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
+![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
 
 
 ![screenshot](./image/shell_format.gif)
@@ -11,7 +11,11 @@ this is a shell script format vscode extension base [shfmt](https://github.com/m
 please  install shfmt before install this extension
 
 `go get -u github.com/mvdan/sh/cmd/shfmt` 
-or download excutable binary  file and config `shellformat.path` **do not require golang**
+
+or download excutable binary  file 
+
+from https://github.com/mvdan/sh/releases  
+and config `shellformat.path` **do not require golang**
 ## Features
 shellscript code  format
 
@@ -24,7 +28,7 @@ or
 <kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `format shell with shfmt`
 
 ## Requirements
-- [golang](https://golang.org/doc/install)
+- ~~golang~~
 - [shfmt](https://github.com/mvdan/sh#shfmt)
 - Packages are available for Arch, Homebrew, NixOS and Void.
 
@@ -38,7 +42,11 @@ or
 
 
 ## Release Notes
-
+## [1.1.0] - 2017-10-07
+- add setting  config  `"shellformat.showError":true`
+- help you location  error, you can set false to off the error tips.
+- change format by child_process spawn . better performance when large file.
+- add donate link . thank for your donate.
 ## [1.0.0] - 2017-04-06
 - add command flag configuration
 ### [0.1.2] - 2017-01-07
