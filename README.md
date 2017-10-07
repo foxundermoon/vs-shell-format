@@ -1,6 +1,8 @@
 # shell-format
-![market](http://vsmarketplacebadge.apphb.com/version/foxundermoon.shell-format.svg)
-![install](http://vsmarketplacebadge.apphb.com/installs/foxundermoon.shell-format.svg)
+![version](http://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
+![install](http://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
+![ratings](http://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
+
 
 ![screenshot](./shell_format.gif)
 
@@ -64,3 +66,16 @@ or
 
 
 **Enjoy shellscript!**
+
+# donate
+Your donation makes `shell-format` better:
+
+## PayPal
+
+[![](./image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
+
+
+
+###    Alipay(支付宝) / Wechat(微信)
+
+![](./image/donate.png)
