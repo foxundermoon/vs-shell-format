@@ -86,4 +86,4 @@ Your donation makes `shell-format` better:
 
 ###    Alipay(支付宝) / Wechat(微信)
 
-![ Alipay(支付宝) / Wechat(微信)](https://github.com/foxundermoon/vs-shell-format/blob/master/image/donate.png)
+[![ Alipay(支付宝) / Wechat(微信)](https://github.com/foxundermoon/vs-shell-format/blob/master/image/donate.jpg)](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate.jpg)
