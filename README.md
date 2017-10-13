@@ -10,7 +10,7 @@ this is a shell script format vscode extension base [shfmt](https://github.com/m
 
 please  install shfmt before install this extension
 
-`go get -u github.com/mvdan/sh/cmd/shfmt` 
+`go get -u mvdan.cc/sh/cmd/shfmt`
 
 or download excutable binary  file 
 

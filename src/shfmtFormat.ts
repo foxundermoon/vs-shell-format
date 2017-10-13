@@ -66,7 +66,7 @@ export class ShfmtFormatter {
     }
     if (!configBinPath && !this.isExecutedFmtCommand()) {
       vscode.window.showErrorMessage(
-        "shellformat.path not config please download  https://github.com/mvdan/sh/releases or go get -u github.com/mvdan/sh/cmd/shfmt to install"
+        "shellformat.path not config please download  https://github.com/mvdan/sh/releases or go get -u mvdan.cc/sh/cmd/shfmt to install"
       );
     }
   }
