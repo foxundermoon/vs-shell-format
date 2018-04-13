@@ -6,13 +6,21 @@ import { getExecutableFileUnderPath } from "./pathUtil";
 
 export class ShfmtFormatter {
   private formatCommand = "shfmt";
+  private settings: vscode.WorkspaceConfiguration;
+
+  public constructor(settings?: vscode.WorkspaceConfiguration) {
+    if (settings === undefined) {
+        this.settings = settings;
+    } else {
+        this.settings = vscode.workspace.getConfiguration("shellformat");
+    }
+  }
   public formatDocument(document: vscode.TextDocument): string {
     let filename = document.uri.path; // document.fileName;
 
     let formatFlags = /*vscode.workspace.getConfiguration('shell')['formatFlags'] ||*/ [];
-    let settings = vscode.workspace.getConfiguration("shellformat");
-    if (settings) {
-      let flag: string = settings["flag"];
+    if (this.settings) {
+      let flag: string = this.settings["flag"];
       if (flag) {
         if (flag.includes("-w")) {
           vscode.window.showWarningMessage(
@@ -22,7 +30,7 @@ export class ShfmtFormatter {
         let flags = flag.split(" ");
         formatFlags.push(flags);
       }
-      let binPath: string = settings["path"];
+      let binPath: string = this.settings["path"];
       if (binPath) {
         if (fileExists(binPath)) {
           this.formatCommand = binPath;
@@ -41,10 +49,9 @@ export class ShfmtFormatter {
     return result;
   }
   public checkEnv() {
-    let settings = vscode.workspace.getConfiguration("shellformat");
     let configBinPath = false;
-    if (settings) {
-      let flag: string = settings["flag"];
+    if (this.settings) {
+      let flag: string = this.settings["flag"];
       if (flag) {
         if (flag.includes("-w")) {
           vscode.window.showWarningMessage(
@@ -52,7 +59,7 @@ export class ShfmtFormatter {
           );
         }
       }
-      let binPath: string = settings["path"];
+      let binPath: string = this.settings["path"];
       if (binPath) {
         configBinPath = true;
         if (fileExists(binPath)) {
@@ -66,16 +73,15 @@ export class ShfmtFormatter {
     }
     if (!configBinPath && !this.isExecutedFmtCommand()) {
       vscode.window.showErrorMessage(
-        "shellformat.path not config please download  https://github.com/mvdan/sh/releases or go get -u mvdan.cc/sh/cmd/shfmt to install"
+        "shellformat.path not configured please download  https://github.com/mvdan/sh/releases or go get -u mvdan.cc/sh/cmd/shfmt to install"
       );
     }
   }
 
   public formatCurrentDocumentWithContent(content: string): string {
     let formatFlags = [];
-    let settings = vscode.workspace.getConfiguration("shellformat");
-    if (settings) {
-      let flag: string = settings["flag"];
+    if (this.settings) {
+      let flag: string = this.settings["flag"];
       if (flag) {
         if (flag.includes("-w")) {
           vscode.window.showWarningMessage(
@@ -85,7 +91,7 @@ export class ShfmtFormatter {
         let flags = flag.split(" ");
         formatFlags.push(...flags);
       }
-      let binPath: string = settings["path"];
+      let binPath: string = this.settings["path"];
       if (binPath) {
         if (fileExists(binPath)) {
           this.formatCommand = binPath;
