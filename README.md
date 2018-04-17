@@ -16,6 +16,11 @@ or download excutable binary  file
 
 from https://github.com/mvdan/sh/releases  
 and config `shellformat.path` **do not require golang**
+
+if macos also can use
+`brew install shfmt`
+
+
 ## Features
 shellscript code  format also support Dockerfile.
 
@@ -41,27 +46,6 @@ or
 - `shellformat.flag`shfmt -h  to see detail usage , example: `-i 4 -p`
 - `shellformat.showError` show error message when format. default true.
 
-## Release Notes
-## [1.1.0] - 2017-10-07
-- add setting  config  `"shellformat.showError":true`
-- help you location  error, you can set false to off the error tips.
-- change format by child_process spawn . better performance when large file.
-- add donate link . thank for your donate.
-## [1.0.0] - 2017-04-06
-- add command flag configuration
-### [0.1.2] - 2017-01-07
-- add icon & gif
-
-### [0.1.1] - 2017-01-06
-- fix document
-
-### [0.1.0] - 2017-01-06
-- change format base on TextDocument
-
-### [0.0.1] - 2017-01-05
-- add shell format base on file 
-
-
 
 
 
@@ -76,16 +60,10 @@ or
 **Enjoy shellscript!**
 
 # donate
-Your donation makes `shell-format` better:
+Your donation makes `vscode shell-format extension`  better:
 
 eth or tokens 
 `0xea176214f46d894bc7b300c6f4ccfe6e67d1962e`
 ## PayPal
 
 [![](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
-
-
-
-###    Alipay(支付宝) / Wechat(微信)
-
-[![ Alipay(支付宝) / Wechat(微信)](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate.jpg)](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate.jpg)
