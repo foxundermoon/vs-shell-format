@@ -2,6 +2,9 @@
 All notable changes to the "shell-format" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [1.1.2] - 2018-4-17
+- add setting  config  `"shellformat.runOnSave":false`
+- add Dockerfile support.
 ## [1.1.0] - 2017-10-07
 - add setting  config  `"shellformat.showError":true`
 - help you location  error, you can set false to off the error tips.
