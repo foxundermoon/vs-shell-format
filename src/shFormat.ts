@@ -119,13 +119,17 @@ export class ShellDocumentFormattingEditProvider
   private formatter: Formatter;
   private settings: vscode.WorkspaceConfiguration;
 
-  constructor(formatter?: Formatter) {
+  constructor(formatter?: Formatter, settings?: vscode.WorkspaceConfiguration) {
     if (formatter) {
       this.formatter = formatter;
     } else {
       this.formatter = new Formatter();
     }
-    this.settings = vscode.workspace.getConfiguration("shellformat");
+    if (settings === undefined) {
+        this.settings = vscode.workspace.getConfiguration("shellformat");
+    } else {
+        this.settings = settings;
+    }
   }
 
   public provideDocumentFormattingEdits(

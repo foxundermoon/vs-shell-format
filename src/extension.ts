@@ -7,9 +7,10 @@ import { ShfmtFormatter } from './shfmtFormat';
 
 export function activate(context: vscode.ExtensionContext) {
     // console.log('Congratulations, your extension "shell-format" is now active!');
+    let settings = vscode.workspace.getConfiguration('shellformat');
     let shfmter = new Formatter()
-    let symcShfmtFormater = new ShfmtFormatter()
-    let shFmtProvider = new ShellDocumentFormattingEditProvider(shfmter)
+    let symcShfmtFormater = new ShfmtFormatter(settings)
+    let shFmtProvider = new ShellDocumentFormattingEditProvider(shfmter, settings)
     symcShfmtFormater.checkEnv();
 
     context.subscriptions.push(
@@ -32,6 +33,15 @@ export function activate(context: vscode.ExtensionContext) {
             }
         })
     );
+
+    if ('runOnSave' in settings && settings['runOnSave']) {
+        vscode.workspace.onWillSaveTextDocument((event: vscode.TextDocumentWillSaveEvent) => {
+            // Only on explicit save
+            if (event.reason === 1) {
+                vscode.commands.executeCommand('shell.format.shfmt');
+            }
+        });
+    }
 }
 
 export function deactivate() {
