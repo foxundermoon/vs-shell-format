@@ -33,16 +33,21 @@
         "bash"
     ],
     "contributes": {
-        "commands": [{
-            "command": "shell.format.shfmt",
-            "title": "format shell with shfmt"
-        }],
-        "languages": [{
-            "id": "shellscript",
-            "extensions": [
-                ".sh"
-            ]
-        }],
+        "commands": [
+            {
+                "command": "shell.format.shfmt",
+                "title": "format shell with shfmt"
+            }
+        ],
+        "languages": [
+            {
+                "id": "shellscript",
+                "extensions": [
+                    ".sh",
+                    ".bash"
+                ]
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "shell-format configuration",
@@ -67,6 +72,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "show error message when format error"
+                },
+                "shellformat.runOnSave": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "format on save"
                 }
             }
         }
