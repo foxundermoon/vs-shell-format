@@ -17,7 +17,7 @@ or download excutable binary  file
 from https://github.com/mvdan/sh/releases  
 and config `shellformat.path` **do not require golang**
 ## Features
-shellscript code  format
+shellscript code  format also support Dockerfile.
 
 <kbd>shift</kbd>+<kbd>option</kbd>+<kbd>f</kbd> 
 
@@ -78,6 +78,8 @@ or
 # donate
 Your donation makes `shell-format` better:
 
+eth or tokens 
+`0xea176214f46d894bc7b300c6f4ccfe6e67d1962e`
 ## PayPal
 
 [![](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
