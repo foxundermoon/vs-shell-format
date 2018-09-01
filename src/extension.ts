@@ -37,11 +37,20 @@ export function activate(context: vscode.ExtensionContext) {
     if ('runOnSave' in settings && settings['runOnSave']) {
         vscode.workspace.onWillSaveTextDocument((event: vscode.TextDocumentWillSaveEvent) => {
             // Only on explicit save
-            if (event.reason === 1) {
+            if (event.reason === 1 && isAllowedTextDocument(event.document)) {
                 vscode.commands.executeCommand('shell.format.shfmt');
             }
         });
     }
+}
+
+function isAllowedTextDocument(textDocument: vscode.TextDocument): boolean {
+	if (textDocument.languageId !== 'shellscript') {
+		return false;
+	}
+
+	const scheme = textDocument.uri.scheme;
+	return (scheme === 'file' || scheme === 'untitled');
 }
 
 export function deactivate() {
