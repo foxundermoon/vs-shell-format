@@ -8,9 +8,9 @@ import {
   getEditsFromUnifiedDiffStr
 } from "../src/diffUtils";
 
-const configurationPrefix = "shellformat";
+export const configurationPrefix = "shellformat";
 
-enum ConfigItemName {
+export enum ConfigItemName {
   Flag = "flag",
   Path = "path",
   EffectLanguages = "effectLanguages",
@@ -132,7 +132,7 @@ export class ShellDocumentFormattingEditProvider
       this.formatter = new Formatter();
     }
     if (settings === undefined) {
-      this.settings = vscode.workspace.getConfiguration("shellformat");
+      this.settings = vscode.workspace.getConfiguration(configurationPrefix);
     } else {
       this.settings = settings;
     }

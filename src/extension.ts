@@ -2,44 +2,52 @@ import * as vscode from "vscode";
 import {
   ShellDocumentFormattingEditProvider,
   Formatter,
-  checkEnv
+  checkEnv,
+  configurationPrefix,
+  ConfigItemName
 } from "./shFormat";
 
-// import { ShfmtFormatter } from "./shfmtFormat";
+export enum DocumentFilterScheme {
+  File = "file",
+  Untitled = "untitled"
+}
+
+const formatOnSaveConfig = "editor.formatOnSave";
+const formatDocumentCommand = "editor.action.formatDocument";
 
 export function activate(context: vscode.ExtensionContext) {
-  // console.log('Congratulations, your extension "shell-format" is now active!');
-  const settings = vscode.workspace.getConfiguration("shellformat");
+  const settings = vscode.workspace.getConfiguration(configurationPrefix);
   const shfmter = new Formatter();
-  //   const symcShfmtFormater = new ShfmtFormatter(settings);
   const shFmtProvider = new ShellDocumentFormattingEditProvider(
     shfmter,
     settings
   );
   checkEnv();
-  const effectLanguages = settings.get<string[]>("effectLanguages");
+  const effectLanguages = settings.get<string[]>(
+    ConfigItemName.EffectLanguages
+  );
   if (effectLanguages) {
     for (const lang of effectLanguages) {
-      context.subscriptions.push(
-        vscode.languages.registerDocumentFormattingEditProvider(
-          { language: lang, scheme: "file" /*pattern: '*.sh'*/ },
-          shFmtProvider
-        )
-      );
+      for (const schemae of Object.values(DocumentFilterScheme)) {
+        context.subscriptions.push(
+          vscode.languages.registerDocumentFormattingEditProvider(
+            { language: lang, scheme: schemae /*pattern: '*.sh'*/ },
+            shFmtProvider
+          )
+        );
+      }
     }
   }
 
-  const editorSettings = vscode.workspace.getConfiguration("editor");
-  let formatOnSave = false;
-  if (editorSettings.has("formatOnSave")) {
-    formatOnSave = editorSettings.get("formatOnSave");
-  }
+  const formatOnSave = vscode.workspace
+    .getConfiguration()
+    .get(formatOnSaveConfig);
   if (formatOnSave) {
     vscode.workspace.onWillSaveTextDocument(
       (event: vscode.TextDocumentWillSaveEvent) => {
         // Only on explicit save
         if (event.reason === 1 && isAllowedTextDocument(event.document)) {
-          vscode.commands.executeCommand("editor.action.formatDocument");
+          vscode.commands.executeCommand(formatDocumentCommand);
         }
       }
     );
@@ -47,13 +55,18 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function isAllowedTextDocument(textDocument: vscode.TextDocument): boolean {
-  const settings = vscode.workspace.getConfiguration("shellformat");
-  const effectLanguages = settings.get<string[]>("effectLanguages");
+  const settings = vscode.workspace.getConfiguration(configurationPrefix);
+  const effectLanguages = settings.get<string[]>(
+    ConfigItemName.EffectLanguages
+  );
   const { scheme } = textDocument.uri;
   if (effectLanguages) {
     const checked = effectLanguages.find(e => e === textDocument.languageId);
     if (checked) {
-      return scheme === "file" || scheme === "untitled";
+      return (
+        scheme === DocumentFilterScheme.File ||
+        scheme === DocumentFilterScheme.Untitled
+      );
     }
   }
   return false;
