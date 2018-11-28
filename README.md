@@ -30,7 +30,7 @@ format current shell document
 
 or
 
-<kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `format shell with shfmt`
+<kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `Format Document`
 
 ## Requirements
 - ~~golang~~

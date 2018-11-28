@@ -1,17 +1,23 @@
-"use strict";
-
 import vscode = require("vscode");
 import cp = require("child_process");
 import path = require("path");
-import { fileExists } from "./pathUtil";
+import { fileExists, getExecutableFileUnderPath } from "./pathUtil";
 import {
   isDiffToolAvailable,
   getEdits,
   getEditsFromUnifiedDiffStr
 } from "../src/diffUtils";
 
+const configurationPrefix = "shellformat";
+
+enum ConfigItemName {
+  Flag = "flag",
+  Path = "path",
+  EffectLanguages = "effectLanguages",
+  ShowError = "showError"
+}
 export class Formatter {
-  private formatCommand = "shfmt";
+  static formatCommand = "shfmt";
 
   public formatDocument(
     document: vscode.TextDocument
@@ -48,7 +54,7 @@ export class Formatter {
           let binPath: string = settings["path"];
           if (binPath) {
             if (fileExists(binPath)) {
-              this.formatCommand = binPath;
+              Formatter.formatCommand = binPath;
             } else {
               vscode.window.showErrorMessage(
                 "the config shellformat.path file not exists please fix it"
@@ -56,7 +62,7 @@ export class Formatter {
             }
           }
         }
-        let fmtSpawn = cp.spawn(this.formatCommand, formatFlags);
+        let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags);
         let output: Buffer[] = [];
         let errorOutput: Buffer[] = [];
         let textEdits: vscode.TextEdit[] = [];
@@ -126,9 +132,9 @@ export class ShellDocumentFormattingEditProvider
       this.formatter = new Formatter();
     }
     if (settings === undefined) {
-        this.settings = vscode.workspace.getConfiguration("shellformat");
+      this.settings = vscode.workspace.getConfiguration("shellformat");
     } else {
-        this.settings = settings;
+      this.settings = settings;
     }
   }
 
@@ -143,4 +149,43 @@ export class ShellDocumentFormattingEditProvider
     // }
     return this.formatter.formatDocument(document);
   }
+}
+
+export function checkEnv() {
+  const settings = vscode.workspace.getConfiguration(configurationPrefix);
+  let configBinPath = false;
+  if (this.settings) {
+    let flag: string = settings.get(ConfigItemName.Flag);
+    if (flag) {
+      if (flag.includes("-w")) {
+        vscode.window.showWarningMessage(
+          "can not set -w flag  please fix config"
+        );
+      }
+    }
+    let binPath: string = settings.get(ConfigItemName.Path);
+    if (binPath) {
+      configBinPath = true;
+      if (fileExists(binPath)) {
+        this.formatCommand = binPath;
+      } else {
+        vscode.window.showErrorMessage(
+          `the config [${configurationPrefix}.${
+            ConfigItemName.Path
+          }] file not exists please fix it`
+        );
+      }
+    }
+  }
+  if (!configBinPath && !isExecutedFmtCommand()) {
+    vscode.window.showErrorMessage(
+      `[${configurationPrefix}.${
+        ConfigItemName.Path
+      }] not configured please download  https://github.com/mvdan/sh/releases or go get -u mvdan.cc/sh/cmd/shfmt to install`
+    );
+  }
+}
+
+function isExecutedFmtCommand() {
+  return getExecutableFileUnderPath(Formatter.formatCommand) != null;
 }
