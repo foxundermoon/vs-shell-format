@@ -1,38 +1,33 @@
-'use strict';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
-let binPathCache: { [bin: string]: string; } = {};
+let binPathCache: { [bin: string]: string } = {};
 export function getExecutableFileUnderPath(toolName: string) {
-    let cachePath = binPathCache[toolName];
-    if (cachePath) {
-        return cachePath;
+  let cachePath = binPathCache[toolName];
+  if (cachePath) {
+    return cachePath;
+  }
+  toolName = correctBinname(toolName);
+  let paths = process.env["PATH"].split(path.delimiter);
+  for (let i = 0; i < paths.length; i++) {
+    let binpath = path.join(paths[i], toolName);
+    if (fileExists(binpath)) {
+      binPathCache[toolName] = binpath;
+      return binpath;
     }
-    toolName = correctBinname(toolName);
-    let paths = process.env['PATH'].split(path.delimiter);
-    for (let i = 0; i < paths.length; i++) {
-        let binpath = path.join(paths[i], toolName);
-        if (fileExists(binpath)) {
-            binPathCache[toolName] = binpath;
-            return binpath;
-        }
-    }
-    return null;
+  }
+  return null;
 }
 
-
-
 function correctBinname(binname: string) {
-    if (process.platform === 'win32')
-        return binname + '.exe';
-    else
-        return binname;
+  if (process.platform === "win32") return binname + ".exe";
+  else return binname;
 }
 
 export function fileExists(filePath: string): boolean {
-    try {
-        return fs.statSync(filePath).isFile();
-    } catch (e) {
-        return false;
-    }
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (e) {
+    return false;
+  }
 }
