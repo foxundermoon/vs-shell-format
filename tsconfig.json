@@ -4,7 +4,7 @@
         "target": "esnext",
         "outDir": "out",
         "lib": [
-            "es6"
+            "esnext"
         ],
         "sourceMap": true,
         "rootDir": "."
