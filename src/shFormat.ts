@@ -154,7 +154,7 @@ export class ShellDocumentFormattingEditProvider
 export function checkEnv() {
   const settings = vscode.workspace.getConfiguration(configurationPrefix);
   let configBinPath = false;
-  if (this.settings) {
+  if (settings) {
     let flag: string = settings.get(ConfigItemName.Flag);
     if (flag) {
       if (flag.includes("-w")) {
