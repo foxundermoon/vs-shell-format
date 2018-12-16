@@ -39,7 +39,7 @@ export class Formatter {
     return new Promise((resolve, reject) => {
       try {
         let formatFlags = []; //todo add user configuration
-        let settings = vscode.workspace.getConfiguration("shellformat");
+        let settings = vscode.workspace.getConfiguration(configurationPrefix);
         if (settings) {
           let flag: string = settings["flag"];
           if (flag) {
