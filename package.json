@@ -1,8 +1,8 @@
 {
     "name": "shell-format",
     "displayName": "shell-format",
-    "description": "the  shellscript、Dockerfile code format",
-    "version": "2.0.1",
+    "description": "the  shellscript、Dockerfile、dotenv document format extension",
+    "version": "2.0.2",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.8.0"
