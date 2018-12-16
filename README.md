@@ -1,3 +1,8 @@
+
+<a class="github-button" href="https://github.com/foxundermoon/vs-shell-format" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star foxundermoon/vs-shell-format on GitHub">Star</a>
+
+<a class="github-button" href="https://github.com/foxundermoon/vs-shell-format/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue foxundermoon/vs-shell-format on GitHub">Issue</a>
+
 # shell-format
 ![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
 ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
@@ -67,3 +72,8 @@ eth or tokens
 ## PayPal
 
 [![](https://github.com/foxundermoon/vs-shell-format/raw/master/image/donate-paypal.jpg)](https://www.paypal.me/foxmn)
+
+
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
