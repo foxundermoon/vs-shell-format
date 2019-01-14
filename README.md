@@ -3,6 +3,8 @@
 
 <a class="github-button" href="https://github.com/foxundermoon/vs-shell-format/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue foxundermoon/vs-shell-format on GitHub">Issue</a>
 
+[marketplace](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
+
 # shell-format
 ![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
 ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
