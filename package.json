@@ -2,7 +2,7 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "the  shellscript、Dockerfile、dotenv document format extension",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.8.0"
@@ -13,7 +13,11 @@
     "activationEvents": [
         "onLanguage:shellscript",
         "onLanguage:dotenv",
-        "onLanguage:dockerfile"
+        "onLanguage:dockerfile",
+        "onLanguage:ignore",
+        "onLanguage:hosts",
+        "onLanguage:jvmoptions",
+        "onLanguage:properties"
     ],
     "main": "./out/src/extension",
     "capabilities": {
@@ -29,26 +33,106 @@
     },
     "keywords": [
         "shell",
+        "docker",
         "shellscript",
         "format",
         "bash",
         "dockerfile",
-        "dockerfile",
-        "dotenv"
+        "properties",
+        "zsh",
+        "fish",
+        "dotenv",
+        "hosts",
+        "jvmoptions",
+        "vmoptions",
+        "bashrc",
+        "zshrc"
     ],
     "contributes": {
         "languages": [{
                 "id": "shellscript",
+                "aliases": [
+                    "bash",
+                    "shell",
+                    "zsh",
+                    "fish"
+                ],
                 "extensions": [
                     ".sh",
                     ".bash"
+                ],
+                "filenames": [
+                    ".zshrc",
+                    ".bashrc",
+                    "bashrc",
+                    "profile",
+                    ".bash_profile",
+                    ".profile",
+                    ".bash_logout"
+                ],
+                "__comment": "https://regex101.com/r/0QKQ9Z/2",
+                "firstLine": "^#!\\s*\\/(?:(?:usr\\/bin\\/env\\s+(?:sh|bash|zsh|fish))|(?:(?:usr\\/(?:local\\/)?)?bin\\/(?:sh|bash|zsh|fish)))"
+            },
+            {
+                "id": "dockerfile",
+                "aliases": [
+                    "docker",
+                    "Dockerfile"
+                ],
+                "filenamePatterns": [
+                    "Dockerfile",
+                    "Dockerfile.*",
+                    "*.dockerfile"
                 ]
             },
             {
-                "id": "dockerfile"
+                "id": "ignore",
+                "aliases": [
+                    "gitignore",
+                    "dockerignore"
+                ],
+                "filenames": [
+                    ".dockerignore",
+                    ".gitignore"
+                ]
             },
             {
-                "id": "dotenv"
+                "id": "dotenv",
+                "aliases": [
+                    "env"
+                ],
+                "filenamePatterns": [
+                    ".env.*"
+                ],
+                "filenames": [
+                    "env",
+                    ".env"
+                ]
+            },
+            {
+                "id": "jvmoptions",
+                "aliases": [
+                    "vmoptions"
+                ],
+                "extensions": [
+                    ".vmoptions"
+                ],
+                "filenames": [
+                    "jvm.options"
+                ]
+            },
+            {
+                "id": "hosts",
+                "filenames": [
+                    "hosts"
+                ]
+            },
+            {
+                "id": "properties",
+                "aliases": ["Properties"],
+                "extensions": [
+                    ".properties"
+                ]
             }
         ],
         "configuration": {
@@ -81,7 +165,11 @@
                     "default": [
                         "shellscript",
                         "dockerfile",
-                        "dotenv"
+                        "dotenv",
+                        "hosts",
+                        "jvmoptions",
+                        "ignore",
+                        "properties"
                     ],
                     "description": "kust effec  on the language"
                 }

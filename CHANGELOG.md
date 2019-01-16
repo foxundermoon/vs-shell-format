@@ -2,6 +2,8 @@
 All notable changes to the "shell-format" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [2.0.4] 2019-01-16
+-  add hosts、properties、.gitignore、.dockerignore、 jvmoptions file surport
 ## [2.0.2] 2019-01-14
 -  change logo
   
