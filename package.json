@@ -2,7 +2,7 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "the  shellscript、Dockerfile、dotenv document format extension",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.30.0"

@@ -226,7 +226,7 @@ function showMamualInstallMessage() {
   );
 }
 function installFmtForMaxos() {
-  if (getExecutableFileUnderPath("brew2")) {
+  if (getExecutableFileUnderPath("brew")) {
     vscode.window.showInformationMessage("will install shfmt by brew");
     const terminal = vscode.window.createTerminal();
     terminal.show();
