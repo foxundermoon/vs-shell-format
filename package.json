@@ -2,10 +2,10 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "the  shellscript、Dockerfile、dotenv document format extension",
-    "version": "2.0.4",
+    "version": "3.0.0",
     "publisher": "foxundermoon",
     "engines": {
-        "vscode": "^1.8.0"
+        "vscode": "^1.30.0"
     },
     "categories": [
         "Formatters"
@@ -39,6 +39,8 @@
         "bash",
         "dockerfile",
         "properties",
+        "formatter",
+        "beautify",
         "zsh",
         "fish",
         "dotenv",
@@ -49,7 +51,8 @@
         "zshrc"
     ],
     "contributes": {
-        "languages": [{
+        "languages": [
+            {
                 "id": "shellscript",
                 "aliases": [
                     "bash",
@@ -129,7 +132,9 @@
             },
             {
                 "id": "properties",
-                "aliases": ["Properties"],
+                "aliases": [
+                    "Properties"
+                ],
                 "extensions": [
                     ".properties"
                 ]
@@ -185,10 +190,10 @@
     },
     "devDependencies": {
         "@types/mocha": "^5.2.5",
-        "@types/node": "^10.12.10",
+        "@types/node": "^10.12.18",
         "mocha": "^5.2.0",
-        "typescript": "^3.1.6",
-        "vscode": "^1.1.22"
+        "typescript": "^3.2.2",
+        "vscode": "^1.1.26"
     },
     "dependencies": {
         "diff": "~3.0.0"

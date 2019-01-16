@@ -16,6 +16,17 @@ export enum ConfigItemName {
   EffectLanguages = "effectLanguages",
   ShowError = "showError"
 }
+
+const shfmtVersion = "v2.6.2";
+const defaultDownloadShfmtPath = "/usr/local/bin/shfmt";
+const fileExtensionMap = {
+  arm: "arm",
+  arm64: "arm",
+  ia32: "386",
+  mips: "mips",
+  x32: "386",
+  x64: "amd64"
+};
 export class Formatter {
   static formatCommand = "shfmt";
 
@@ -59,6 +70,14 @@ export class Formatter {
               vscode.window.showErrorMessage(
                 "the config shellformat.path file not exists please fix it"
               );
+            }
+          } else {
+            if (
+              !binPath &&
+              process.platform != "win32" &&
+              fileExists(defaultDownloadShfmtPath)
+            ) {
+              Formatter.formatCommand = defaultDownloadShfmtPath;
             }
           }
         }
@@ -178,11 +197,70 @@ export function checkEnv() {
     }
   }
   if (!configBinPath && !isExecutedFmtCommand()) {
-    vscode.window.showErrorMessage(
-      `[${configurationPrefix}.${
-        ConfigItemName.Path
-      }] not configured please download  https://github.com/mvdan/sh/releases or go get -u mvdan.cc/sh/cmd/shfmt to install`
+    if (process.platform == "darwin") {
+      installFmtForMaxos();
+    } else if (
+      [
+        // "android",
+        // "darwin",
+        "freebsd",
+        "linux",
+        "openbsd"
+        // "sunos",
+        // "win32",
+        // "cygwin"
+      ].includes(process.platform)
+    ) {
+      installForLinux();
+    } else {
+      showMamualInstallMessage();
+    }
+  }
+}
+
+function showMamualInstallMessage() {
+  vscode.window.showErrorMessage(
+    `[${configurationPrefix}.${
+      ConfigItemName.Path
+    }]not found!  please install  manual https://mvdan.cc/sh/cmd/shfmt `
+  );
+}
+function installFmtForMaxos() {
+  if (getExecutableFileUnderPath("brew2")) {
+    vscode.window.showInformationMessage("will install shfmt by brew");
+    const terminal = vscode.window.createTerminal();
+    terminal.show();
+    terminal.sendText("brew install shfmt", true);
+  } else {
+    installForLinux();
+  }
+}
+
+function installForLinux() {
+  try {
+    const url = getDownloadUrl();
+    vscode.window.showInformationMessage("will install shfmt by curl");
+    const terminal = vscode.window.createTerminal();
+    terminal.show();
+    terminal.sendText("mkdir -p /usr/local/bin", true);
+    terminal.sendText(`curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
+    terminal.sendText(`chmod a+x /usr/local/bin/shfmt`, true);
+  } catch (error) {
+    vscode.window.showWarningMessage(
+      "install shfmt faild , please install manual https://mvdan.cc/sh/cmd/shfmt"
     );
+  }
+}
+
+function getDownloadUrl() {
+  try {
+    const extension = fileExtensionMap[process.arch];
+    const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${
+      process.platform
+    }_${extension}`;
+    return url;
+  } catch (error) {
+    throw new Error("nor sourport");
   }
 }
 
