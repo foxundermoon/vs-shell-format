@@ -35,7 +35,7 @@
 
 <kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `Format Document`
 
-### exceptional  windows
+###  special for Windows
 download excutable binary file
 from https://github.com/mvdan/sh/releases
 and config `shellformat.path`
