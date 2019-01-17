@@ -2,6 +2,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [4.0.0] 2019-01-17
+
+- fix doc ,adapter spring properties
+
 ## [3.0.0] 2019-01-16
 
 - auto install dependencies `shfmt` for macos and linux
