@@ -10,7 +10,7 @@
 
 | laguange    | extension                 | describe              |
 | ----------- | ------------------------- | --------------------- |
-| shellscript | .sh .bash .zsh            | shel script files     |
+| shellscript | .sh .bash .zsh            | shell script files    |
 | dockerfile  | Dockerfile                | docker files          |
 | ignore      | .gitignore  .dockerignore | ignore files          |
 | properties  | .properties               | java properties files |
@@ -28,15 +28,6 @@
 
 ![screenshot](https://github.com/foxundermoon/vs-shell-format/raw/master/image/shell_format.gif)
 
-
-
-download excutable binary file
-from https://github.com/mvdan/sh/releases  
-and config `shellformat.path`
-
-if macos also can use
-`brew install shfmt`
-
 ## usage
 
 
@@ -44,10 +35,14 @@ if macos also can use
 
 <kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `Format Document`
 
+### exceptional  windows
+download excutable binary file
+from https://github.com/mvdan/sh/releases
+and config `shellformat.path`
+
 ## dependency
 
 - [shfmt](https://github.com/mvdan/sh#shfmt)
-
 
 ## custom configuration
 
