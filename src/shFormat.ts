@@ -231,6 +231,11 @@ function installFmtForMaxos() {
     const terminal = vscode.window.createTerminal();
     terminal.show();
     terminal.sendText("brew install shfmt", true);
+    terminal.sendText("echo '**Enjoy shellscript!**'", true);
+    terminal.sendText(
+      "echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'",
+      true
+    );
   } else {
     installForLinux();
   }
@@ -245,6 +250,11 @@ function installForLinux() {
     terminal.sendText("mkdir -p /usr/local/bin", true);
     terminal.sendText(`curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
     terminal.sendText(`chmod a+x /usr/local/bin/shfmt`, true);
+    terminal.sendText("echo '**Enjoy shellscript!**'", true);
+    terminal.sendText(
+      "echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'",
+      true
+    );
   } catch (error) {
     vscode.window.showWarningMessage(
       "install shfmt faild , please install manual https://mvdan.cc/sh/cmd/shfmt"
