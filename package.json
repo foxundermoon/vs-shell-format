@@ -1,8 +1,8 @@
 {
     "name": "shell-format",
     "displayName": "shell-format",
-    "description": "the  shellscript、Dockerfile、dotenv document format extension",
-    "version": "3.0.1",
+    "description": "shellscript、Dockerfile、properties、gitignore、dotenv、hosts、jvmoptions... DocumentFormat",
+    "version": "3.0.2",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.30.0"
@@ -17,7 +17,8 @@
         "onLanguage:ignore",
         "onLanguage:hosts",
         "onLanguage:jvmoptions",
-        "onLanguage:properties"
+        "onLanguage:properties",
+        "onLanguage:spring-boot-properties"
     ],
     "main": "./out/src/extension",
     "capabilities": {
@@ -53,28 +54,7 @@
     "contributes": {
         "languages": [
             {
-                "id": "shellscript",
-                "aliases": [
-                    "bash",
-                    "shell",
-                    "zsh",
-                    "fish"
-                ],
-                "extensions": [
-                    ".sh",
-                    ".bash"
-                ],
-                "filenames": [
-                    ".zshrc",
-                    ".bashrc",
-                    "bashrc",
-                    "profile",
-                    ".bash_profile",
-                    ".profile",
-                    ".bash_logout"
-                ],
-                "__comment": "https://regex101.com/r/0QKQ9Z/2",
-                "firstLine": "^#!\\s*\\/(?:(?:usr\\/bin\\/env\\s+(?:sh|bash|zsh|fish))|(?:(?:usr\\/(?:local\\/)?)?bin\\/(?:sh|bash|zsh|fish)))"
+                "id": "shellscript"
             },
             {
                 "id": "dockerfile",
@@ -133,7 +113,8 @@
             {
                 "id": "properties",
                 "aliases": [
-                    "Properties"
+                    "Properties",
+                    "spring-boot-properties"
                 ],
                 "extensions": [
                     ".properties"
@@ -174,7 +155,9 @@
                         "hosts",
                         "jvmoptions",
                         "ignore",
-                        "properties"
+                        "gitignore",
+                        "properties",
+                        "spring-boot-properties"
                     ],
                     "description": "kust effec  on the language"
                 }
@@ -196,6 +179,7 @@
         "vscode": "^1.1.26"
     },
     "dependencies": {
+        "chalk": "^2.4.2",
         "diff": "~3.0.0"
     }
 }

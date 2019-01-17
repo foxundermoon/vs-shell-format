@@ -1,6 +1,7 @@
-import vscode = require("vscode");
-import cp = require("child_process");
-import path = require("path");
+import * as vscode from "vscode";
+import * as cp from "child_process";
+import * as path from "path";
+import * as chalk from "chalk";
 import { fileExists, getExecutableFileUnderPath } from "./pathUtil";
 import {
   isDiffToolAvailable,
