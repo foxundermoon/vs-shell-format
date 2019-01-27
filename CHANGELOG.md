@@ -2,6 +2,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [4.0.3] 2019-01-17
+
+- new gif
+- add supported files  for test
+  
 ## [4.0.0] 2019-01-17
 
 - fix doc ,adapter spring properties

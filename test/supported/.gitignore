@@ -1,0 +1,32 @@
+
+.CFUserTextEncoding
+  .DS_Store 
+.adobe/ 
+
+                  .android/
+                  .bash_history
+                  .bash_profile
+  .bash_sessions/
+
+  .bashrc
+.cache/ 
+  .gem/
+!.gitconfig
+ !.gitignore
+                    .gradle/
+.gvm/
+.npm/
+ .dotnet/
+           .electron/
+           
+           .atom/
+           .bin/ssh_3d_199.sh
+           .black-screen/
+           
+           tmp/
+           .sdkman
+           .vim
+           .tmux
+
+.helm
+
