@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        // "*.js": "javascriptreact"
+        "hosts": "shellscript",
+        "*.vmoptions":"shellscript"
+    },
+    "editor.fontSize": 96,
+    "editor.lineNumbers": "off",
+}
