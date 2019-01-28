@@ -2,11 +2,15 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [4.0.4] 2019-01-17
+
+- add format options supported [#24](!https://github.com/foxundermoon/vs-shell-format/pull/24)
+
 ## [4.0.3] 2019-01-17
 
 - new gif
-- add supported files  for test
-  
+- add supported files for test
+
 ## [4.0.0] 2019-01-17
 
 - fix doc ,adapter spring properties
