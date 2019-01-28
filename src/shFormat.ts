@@ -31,7 +31,8 @@ export class Formatter {
   static formatCommand = "shfmt";
 
   public formatDocument(
-    document: vscode.TextDocument
+    document: vscode.TextDocument,
+    options?: vscode.FormattingOptions
   ): Thenable<vscode.TextEdit[]> {
     const start = new vscode.Position(0, 0);
     const end = new vscode.Position(
@@ -40,12 +41,13 @@ export class Formatter {
     );
     const range = new vscode.Range(start, end);
     const content = document.getText(range);
-    return this.formatDocumentWithContent(content, document.fileName);
+    return this.formatDocumentWithContent(content, document.fileName, options);
   }
 
   public formatDocumentWithContent(
     content: string,
-    filename: string
+    filename: string,
+    options?: vscode.FormattingOptions
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
       try {
@@ -80,6 +82,9 @@ export class Formatter {
               Formatter.formatCommand = defaultDownloadShfmtPath;
             }
           }
+        }
+        if (options && options.insertSpaces) {
+          formatFlags.push("-i", options.tabSize);
         }
         let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags);
         let output: Buffer[] = [];
@@ -166,7 +171,7 @@ export class ShellDocumentFormattingEditProvider
     // if (!onSave) {
     //   console.log(onSave);
     // }
-    return this.formatter.formatDocument(document);
+    return this.formatter.formatDocument(document, options);
   }
 }
 
