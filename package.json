@@ -42,8 +42,6 @@
         "properties",
         "formatter",
         "beautify",
-        "zsh",
-        "fish",
         "dotenv",
         "hosts",
         "jvmoptions",
