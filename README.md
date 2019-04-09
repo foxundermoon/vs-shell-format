@@ -5,16 +5,16 @@
 [marketplace](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
 
 
-# surport file types or laguanges
+# supported file types or languages
 
 
-| laguange    | extension                 | describe              |
+| language    | extension                 | describe              |
 | ----------- | ------------------------- | --------------------- |
 | shellscript | .sh .bash .zsh            | shell script files    |
 | dockerfile  | Dockerfile                | docker files          |
 | ignore      | .gitignore  .dockerignore | ignore files          |
 | properties  | .properties               | java properties files |
-| jvmoptions  | .vmoptions , jvm.options  | jvm optons file       |
+| jvmoptions  | .vmoptions , jvm.options  | jvm options file       |
 | hosts       | /etc/hosts                | hosts file            |
 
 ---
@@ -40,14 +40,14 @@ download excutable binary file
 from https://github.com/mvdan/sh/releases
 and config `shellformat.path`
 
-## dependency
+## dependencies
 
 - [shfmt](https://github.com/mvdan/sh#shfmt)
 
 ## custom configuration
 
 - `shellformat.path`the shfmt fullpath example [mac,linux]: `/usr/local/bin/shfmt` [windows]: `C:\\bin\\shfmt.exe`
-- `shellformat.flag`shfmt -h to see detail usage , example: `-i 4 -p`
+- `shellformat.flag`shfmt -h to see detailed usage , example: `-i 4 -p`
 - `shellformat.showError` show error message when format. default true.
 
 ---
