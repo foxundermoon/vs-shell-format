@@ -17,7 +17,7 @@ export enum ConfigItemName {
   ShowError = "showError"
 }
 
-const shfmtVersion = "v2.6.2";
+const shfmtVersion = "v2.6.4";
 const defaultDownloadShfmtPath = "/usr/local/bin/shfmt";
 const fileExtensionMap = {
   arm: "arm",
@@ -201,7 +201,7 @@ export function checkEnv() {
       }
     }
   }
-  if (!configBinPath && !isExecutedFmtCommand()) {
+  if (!configBinPath && !isExecutedFmtCommand() && !fileExists(defaultDownloadShfmtPath)) {
     if (process.platform == "darwin") {
       installFmtForMaxos();
     } else if (
@@ -267,7 +267,7 @@ function installForLinux() {
   }
 }
 
-function getDownloadUrl() {
+function getDownloadUrl():String {
   try {
     const extension = fileExtensionMap[process.arch];
     const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${
@@ -279,6 +279,6 @@ function getDownloadUrl() {
   }
 }
 
-function isExecutedFmtCommand() {
+function isExecutedFmtCommand(): Boolean {
   return getExecutableFileUnderPath(Formatter.formatCommand) != null;
 }
