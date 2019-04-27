@@ -8,19 +8,6 @@ steps:
 - script: npm run compile
   displayName: Build extension
 
-- script: |
-    BEFORE=$(git hash-object local-schema.json)
-    npm run generateyamlschema
-    AFTER=$(git hash-object local-schema.json)
-    if [ "$BEFORE" != "$AFTER" ]; then
-      echo Generated local-schema.json does not match the one checked in.
-      echo Did you forget to regen and check in the result?
-      echo SHA1 hash before: $BEFORE
-      echo SHA1 hash after : $AFTER
-      exit -1
-    fi
-  displayName: Regenerate local-schema.json
-
 - script: npm run unittest
   displayName: Run unit tests
 
@@ -61,4 +48,4 @@ steps:
   displayName: Publish VSIX
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: azure-pipelines-vscode
+    artifactName: vs-shell-format

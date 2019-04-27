@@ -50,8 +50,7 @@
         "zshrc"
     ],
     "contributes": {
-        "languages": [
-            {
+        "languages": [{
                 "id": "shellscript"
             },
             {
@@ -164,7 +163,8 @@
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
         "clean": "rm -rf out/",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test"

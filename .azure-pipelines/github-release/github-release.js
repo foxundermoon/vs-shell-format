@@ -43,8 +43,8 @@ async function createRelease() {
     let createReleaseResult;
     try {
         createReleaseResult = await octokit.repos.createRelease({
-            owner: 'Microsoft',
-            repo: 'azure-pipelines-vscode',
+            owner: 'foxundermoon',
+            repo: 'vs-shell-format',
             tag_name: `v${version}`,
             target_commitish: target_commitish,
             name: `${version}`,
