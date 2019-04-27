@@ -2,7 +2,7 @@
 
 <a class="github-button" href="https://github.com/foxundermoon/vs-shell-format/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue foxundermoon/vs-shell-format on GitHub">Issue</a>
 
-[marketplace](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
+[Get it on the VS Code Marketplace!](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
 
 
 # supported file types or languages
@@ -54,7 +54,7 @@ and config `shellformat.path`
 
 ## Links
 
-### [gitRepos](https://github.com/foxundermoon/vs-shell-format)
+### [self source code](https://github.com/foxundermoon/vs-shell-format)
 
 ### [shfmt](https://github.com/mvdan/sh)
 
