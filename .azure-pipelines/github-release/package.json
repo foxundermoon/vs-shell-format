@@ -1,0 +1,14 @@
+{
+  "name": "github-release",
+  "version": "1.0.0",
+  "description": "",
+  "main": "github-release.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^15.17.0"
+  }
+}

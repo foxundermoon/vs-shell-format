@@ -1,0 +1,64 @@
+# Common steps template
+#
+# Things which happen regardless of CI, PR, or release builds
+steps:
+- script: npm install
+  displayName: npm install
+
+- script: npm run compile
+  displayName: Build extension
+
+- script: |
+    BEFORE=$(git hash-object local-schema.json)
+    npm run generateyamlschema
+    AFTER=$(git hash-object local-schema.json)
+    if [ "$BEFORE" != "$AFTER" ]; then
+      echo Generated local-schema.json does not match the one checked in.
+      echo Did you forget to regen and check in the result?
+      echo SHA1 hash before: $BEFORE
+      echo SHA1 hash after : $AFTER
+      exit -1
+    fi
+  displayName: Regenerate local-schema.json
+
+- script: npm run unittest
+  displayName: Run unit tests
+
+# Acquire the `vsce` tool and use it to package
+- script: |
+    sudo npm install -g vsce
+    vsce package
+  displayName: Create VSIX
+
+- script: |
+    npm run vscode:prepublish
+    cat /home/vsts/.npm/_logs/*.log
+  displayName: Echo npm error logs on failure
+  condition: failed()
+
+# For releasable builds, we'll want the branch and the changelog
+# Expects that a 'version.txt' has been laid down by a previous step
+- bash: |
+    echo $(Build.SourceBranch) | sed "s|refs/[^/]*/||" > branch.txt
+    PACKAGE_VERSION=$(cat version.txt)
+    VERSION_REGEX="## $(echo $PACKAGE_VERSION | sed 's/\./\\./g')"
+    sed -n "/$VERSION_REGEX/,/## 1\..*/p" CHANGELOG.md | head -n -2 > minichangelog.txt
+  displayName: Get branch and mini-changelog
+
+# Choose files to publish
+- task: CopyFiles@2
+  displayName: Stage VSIX for publishing
+  inputs:
+    contents: |-
+      *.vsix
+      version.txt
+      branch.txt
+      minichangelog.txt
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+# Publish files as an artifact
+- task: PublishBuildArtifacts@1
+  displayName: Publish VSIX
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: azure-pipelines-vscode
