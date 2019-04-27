@@ -5,6 +5,8 @@
 [Get it on the VS Code Marketplace!](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
 
 
+
+
 # supported file types or languages
 
 
@@ -21,7 +23,7 @@
 
 
 # shell-format
-
+[![Build Status](https://foxundermoon.visualstudio.com/vs-shell-format/_apis/build/status/vs-shell-format-CI?branchName=master)](https://foxundermoon.visualstudio.com/vs-shell-format/_build/latest?definitionId=1&branchName=master)
 ![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg)
 ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)
 ![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)
