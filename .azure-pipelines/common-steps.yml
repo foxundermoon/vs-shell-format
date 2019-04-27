@@ -8,11 +8,8 @@ steps:
 - script: npm run compile
   displayName: Build extension
 
-- script: |
-    npm run test
-    cat /home/vsts/.npm/_logs/*.log
-  displayName: npm run test Echo npm error logs on failure
-  condition: failed()
+- script: npm run test
+  displayName: npm run test
 
 # Acquire the `vsce` tool and use it to package
 - script: |
