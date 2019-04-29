@@ -3,7 +3,7 @@
 # Uses the common build logic, but also gains capabilities related to releasing the product.
 
 # Only trigger manually
-trigger: none
+trigger: master
 pr: none
 
 pool:
@@ -44,5 +44,8 @@ steps:
   env:
     GITHUB_TOKEN: $(GitHubSecret)
 - bash: |
-    vsce publish
+    vsce publish -p $VS_MARKETING_TOKEN
   displayName: publish to marketing
+  env:
+    VS_MARKETING_TOKEN: $(vs.marketing.token)
+
