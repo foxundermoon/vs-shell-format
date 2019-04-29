@@ -67,8 +67,8 @@ steps:
   env:
     GITHUB_TOKEN: $(GitHubSecret)
 - bash: |
-    vsce publish -p $VS_MARKETING_TOKEN
+    vsce publish -p $VS_MARKETPLACE_TOKEN
   displayName: publish to marketing
   env:
-    VS_MARKETING_TOKEN: $(vs.marketplace.token)
+    VS_MARKETPLACE_TOKEN: $(vs.marketplace.token)
 
