@@ -1,6 +1,6 @@
 {
   "name": "github-release",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "github-release.js",
   "scripts": {
