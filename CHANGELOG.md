@@ -1,6 +1,10 @@
 # Change Log
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [4.0.6] 2019-04-30
+- temporary disable linux auto download shfmt for ubuntu
+## [4.0.5] 2019-04-09
+- fix always auto downoad
 
 ## [4.0.4] 2019-01-17
 
