@@ -70,5 +70,5 @@ steps:
     vsce publish -p $VS_MARKETING_TOKEN
   displayName: publish to marketing
   env:
-    VS_MARKETING_TOKEN: $(vs.marketing.token)
+    VS_MARKETING_TOKEN: $(vs.marketplace.token)
 
