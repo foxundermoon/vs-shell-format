@@ -8,8 +8,8 @@ steps:
 - script: npm run compile
   displayName: Build extension
 
-- script: npm run test
-  displayName: npm run test
+# - script: npm run test
+#   displayName: npm run test
 
 # Acquire the `vsce` tool and use it to package
 - script: |
