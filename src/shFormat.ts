@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as cp from "child_process";
 import * as path from "path";
+import * as fs from 'fs'
 import { fileExists, getExecutableFileUnderPath } from "./pathUtil";
 import {
   isDiffToolAvailable,
@@ -18,7 +19,10 @@ export enum ConfigItemName {
 }
 
 const shfmtVersion = "v2.6.4";
-const defaultDownloadShfmtPath = "/usr/local/bin/shfmt";
+
+const defaultDownloadDirParrent = '/usr/local'
+const defaultDownloadDir = '/usr/local/bin'
+const defaultDownloadShfmtPath = `${defaultDownloadDir}/shfmt`;
 const fileExtensionMap = {
   arm: "arm",
   arm64: "arm",
@@ -195,7 +199,7 @@ export function checkEnv() {
       } else {
         vscode.window.showErrorMessage(
           `the config [${configurationPrefix}.${
-            ConfigItemName.Path
+          ConfigItemName.Path
           }] file not exists please fix it`
         );
       }
@@ -216,7 +220,8 @@ export function checkEnv() {
         // "cygwin"
       ].includes(process.platform)
     ) {
-      installForLinux();
+      // installForLinux();
+      showMamualInstallMessage();
     } else {
       showMamualInstallMessage();
     }
@@ -226,7 +231,7 @@ export function checkEnv() {
 function showMamualInstallMessage() {
   vscode.window.showErrorMessage(
     `[${configurationPrefix}.${
-      ConfigItemName.Path
+    ConfigItemName.Path
     }]not found!  please install  manual https://mvdan.cc/sh/cmd/shfmt `
   );
 }
@@ -247,14 +252,30 @@ function installFmtForMaxos() {
 }
 
 function installForLinux() {
+  //todo fix the ubuntu permission issue 
+  return
   try {
     const url = getDownloadUrl();
     vscode.window.showInformationMessage("will install shfmt by curl");
     const terminal = vscode.window.createTerminal();
     terminal.show();
-    terminal.sendText("mkdir -p /usr/local/bin", true);
-    terminal.sendText(`curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
-    terminal.sendText(`chmod a+x /usr/local/bin/shfmt`, true);
+    if (!fs.existsSync(defaultDownloadDir)) {
+      try {
+        fs.accessSync(defaultDownloadDirParrent, fs.constants.W_OK)
+        terminal.sendText(`mkdir -p ${defaultDownloadDir}`, true);
+      } catch (err) {
+        terminal.sendText(`sudo mkdir -p ${defaultDownloadDir}`, true);
+      }
+    }
+
+    try {
+      fs.accessSync(defaultDownloadDir, fs.constants.W_OK)
+      terminal.sendText(`curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
+      terminal.sendText(`chmod a+x /usr/local/bin/shfmt`, true);
+    } catch (err) {
+      terminal.sendText(`sudo curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
+      terminal.sendText(`sudo chmod a+x /usr/local/bin/shfmt`, true);
+    }
     terminal.sendText("echo '**Enjoy shellscript!**'", true);
     terminal.sendText(
       "echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'",
@@ -267,12 +288,12 @@ function installForLinux() {
   }
 }
 
-function getDownloadUrl():String {
+function getDownloadUrl(): String {
   try {
     const extension = fileExtensionMap[process.arch];
     const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${
       process.platform
-    }_${extension}`;
+      }_${extension}`;
     return url;
   } catch (error) {
     throw new Error("nor sourport");
