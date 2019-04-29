@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Microsoft",
+  "author": "create by Microsoft fix by fox",
   "license": "MIT",
   "dependencies": {
-    "@octokit/rest": "^15.17.0"
+    "@octokit/rest": "^16.25.0"
   }
 }
