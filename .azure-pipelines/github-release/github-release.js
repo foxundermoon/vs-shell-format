@@ -95,9 +95,13 @@ async function createRelease() {
   }
 }
 
-try {
-  createRelease();
-} catch (err) {
-  console.error(err);
-  process.exit(1);
+async function main() {
+  try {
+    await createRelease();
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 }
+
+main();
