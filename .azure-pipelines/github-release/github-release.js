@@ -37,11 +37,6 @@ async function createRelease() {
     }
   });
 
-  octokit.authenticate({
-    type: "token",
-    token: token
-  });
-
   let target_commitish;
   if (process.env.BUILD_SOURCEBRANCH) {
     target_commitish = process.env.BUILD_SOURCEBRANCH;
