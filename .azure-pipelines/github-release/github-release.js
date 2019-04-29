@@ -22,6 +22,7 @@ This is intended to be run by the release pipeline only.`);
 
 async function createRelease() {
   const octokit = new Octokit({
+    auth: `token ${token}`,
     userAgent: "azure-pipelines/vscode-release-pipeline v1.0",
     request: {
       timeout: 0,

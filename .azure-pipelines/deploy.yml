@@ -65,7 +65,7 @@ steps:
     node $SCRIPT $VSIX $VERSION $GITHUB_TOKEN
   displayName: Create GitHub Release
   env:
-    GITHUB_TOKEN: $(GitHubSecret)
+    GITHUB_TOKEN: $(github.token)
 - bash: |
     vsce publish -p $VS_MARKETPLACE_TOKEN
   displayName: publish to marketing
