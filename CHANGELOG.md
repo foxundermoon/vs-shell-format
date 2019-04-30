@@ -1,6 +1,9 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
+## 4.0.10
+
+- remove time on change log, record by github release
 
 ## [4.0.9] 2019-04-30
 
