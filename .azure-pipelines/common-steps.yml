@@ -29,7 +29,7 @@ steps:
 - bash: |
     echo $(Build.SourceBranch) | sed "s|refs/[^/]*/||" > branch.txt
     PACKAGE_VERSION=$(cat version.txt)
-    VERSION_REGEX="## \[$(echo $PACKAGE_VERSION | sed 's/\./\\./g')\]"
+    VERSION_REGEX="## $(echo $PACKAGE_VERSION | sed 's/\./\\./g')"
     sed -n "/$VERSION_REGEX/,/## \[/p" CHANGELOG.md | sed '$d' > minichangelog.txt
   displayName: Get branch and mini-changelog
 
