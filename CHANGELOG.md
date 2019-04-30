@@ -1,6 +1,10 @@
 # Change Log
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+## [4.0.9] 2019-04-30
+- add license [#35](https://github.com/foxundermoon/vs-shell-format/issues/35)
+- shot changelog
 ## [4.0.8] 2019-04-30
 - add github auto release
 ## [4.0.7] 2019-04-30
