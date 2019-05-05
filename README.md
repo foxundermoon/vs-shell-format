@@ -21,7 +21,7 @@
 
 ---
 
-
+|         |          |          |                         |
 |---------|----------|--------- | -------------------------|
 | ![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg) | ![donwloads](https://vsmarketplacebadge.apphb.com/downloads-short/foxundermoon.shell-format.svg)  | ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)      |    ![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)         | 
 | ![LICENSE](https://badges.frapsoft.com/os/mit/mit.svg) | ![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg) | ![star](https://img.shields.io/github/stars/foxundermoon/vs-shell-format.svg) | ![forks](https://img.shields.io/github/forks/foxundermoon/vs-shell-format.svg) |
