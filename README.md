@@ -22,10 +22,9 @@
 ---
 
 
-          |       |                     |                 |
----------|----------|--------- | -------------------------|
-![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg) | ![donwloads](https://vsmarketplacebadge.apphb.com/downloads-short/foxundermoon.shell-format.svg)  | ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)      |    ![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)         | 
-![LICENSE](https://badges.frapsoft.com/os/mit/mit.svg) | ![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg) | ![star](https://img.shields.io/github/stars/foxundermoon/vs-shell-format.svg) |![forks](https://img.shields.io/github/forks/foxundermoon/vs-shell-format.svg)
+|---------|----------|--------- | -------------------------|
+| ![version](https://vsmarketplacebadge.apphb.com/version-short/foxundermoon.shell-format.svg) | ![donwloads](https://vsmarketplacebadge.apphb.com/downloads-short/foxundermoon.shell-format.svg)  | ![install](https://vsmarketplacebadge.apphb.com/installs-short/foxundermoon.shell-format.svg)      |    ![ratings](https://vsmarketplacebadge.apphb.com/rating-short/foxundermoon.shell-format.svg)         | 
+| ![LICENSE](https://badges.frapsoft.com/os/mit/mit.svg) | ![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg) | ![star](https://img.shields.io/github/stars/foxundermoon/vs-shell-format.svg) | ![forks](https://img.shields.io/github/forks/foxundermoon/vs-shell-format.svg) |
 
 ---
 
@@ -57,7 +56,7 @@ and config `shellformat.path`
 ## custom configuration
 
 - `shellformat.path`the shfmt fullpath example [mac,linux]: `/usr/local/bin/shfmt` [windows]: `C:\\bin\\shfmt.exe`
-- `shellformat.flag`shfmt -h to see detailed usage , example: `-i 4 -p`
+- `shellformat.flag`shfmt -h to see detailed usage.
 - `shellformat.showError` show error message when format. default true.
 
 ---
