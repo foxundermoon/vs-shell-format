@@ -175,7 +175,7 @@
         "@types/node": "^10.12.18",
         "mocha": "^5.2.0",
         "typescript": "^3.2.2",
-        "vscode": "^1.1.26"
+        "vscode": "^1.1.33"
     },
     "dependencies": {
         "diff": "~3.0.0"
