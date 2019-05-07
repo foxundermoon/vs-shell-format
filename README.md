@@ -33,6 +33,11 @@ build | release |
 [![Build Status](https://foxundermoon.visualstudio.com/vs-shell-format/_apis/build/status/vs-shell-format-CI?branchName=master)](https://foxundermoon.visualstudio.com/vs-shell-format/_build/latest?definitionId=1&branchName=master) |[![release Status](https://dev.azure.com/foxundermoon/vs-shell-format/_apis/build/status/vs-shell-format-deploy?branchName=master)](https://dev.azure.com/foxundermoon/vs-shell-format/_build/latest?definitionId=4&branchName=master) |
 
 
+
+
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/vs-shell-format/community)
+
+
 ---
 
 ![screenshot](https://github.com/foxundermoon/vs-shell-format/raw/master/image/shell_format.gif)
