@@ -20,7 +20,7 @@
         "onLanguage:properties",
         "onLanguage:spring-boot-properties"
     ],
-    "main": "./out/src/extension",
+    "main": "./dist/extension",
     "capabilities": {
         "documentFormattingProvider": "true"
     },
@@ -163,19 +163,22 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "clean": "rm -rf out/",
+        "vscode:prepublish": "webpack --mode production",
+        "compile": "webpack --mode none",
+        "watch": "webpack --mode none --watch",
         "postinstall": "node ./node_modules/vscode/bin/install",
+        "test-compile": "tsc -p ./",
         "test": "node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
         "@types/mocha": "^5.2.5",
         "@types/node": "^10.12.18",
         "mocha": "^5.2.0",
+        "ts-loader": "^6.0.1",
         "typescript": "^3.2.2",
-        "vscode": "^1.1.33"
+        "vscode": "^1.1.33",
+        "webpack": "^4.32.2",
+        "webpack-cli": "^3.3.2"
     },
     "dependencies": {
         "diff": "~3.0.0"

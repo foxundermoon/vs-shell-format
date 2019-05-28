@@ -6,3 +6,4 @@ node_modules
 branch.txt
 minichangelog.txt
 version.txt
+dist
