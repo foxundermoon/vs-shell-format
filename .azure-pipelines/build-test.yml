@@ -20,7 +20,7 @@ jobs:
         inputs:
           command: custom
           verbose: false
-          customCommand: 'run compile'
+          customCommand: 'run test-compile'
       - script: 'node node_modules/vscode/bin/test'
         displayName: 'Run tests'
   - job: macOS
@@ -41,7 +41,7 @@ jobs:
         inputs:
           command: custom
           verbose: false
-          customCommand: 'run compile'
+          customCommand: 'run test-compile'
       - script: 'node node_modules/vscode/bin/test'
         displayName: 'Run tests'
   - job: Linux
@@ -62,7 +62,7 @@ jobs:
         inputs:
           command: custom
           verbose: false
-          customCommand: 'run compile'
+          customCommand: 'run test-compile'
       - script: |
           set -e
           /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
