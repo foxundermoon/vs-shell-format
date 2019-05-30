@@ -1,4 +1,6 @@
-<a class="github-button" href="https://github.com/foxundermoon/vs-shell-format" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star foxundermoon/vs-shell-format on GitHub">Star</a>
+
+
+# <a class="github-button" href="https://github.com/foxundermoon/vs-shell-format" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star foxundermoon/vs-shell-format on GitHub">star 🚀 ⭐️ ⭐️ ⭐️ ⭐️ ⭐️</a>
 
 <a class="github-button" href="https://github.com/foxundermoon/vs-shell-format/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue foxundermoon/vs-shell-format on GitHub">Issue</a>
 
