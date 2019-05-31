@@ -139,11 +139,6 @@
                     "default": null,
                     "description": "shfmt -h  to see detail usage , example: -i 4 -p"
                 },
-                "shellformat.showError": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "show error message when format error"
-                },
                 "shellformat.effectLanguages": {
                     "type": "array",
                     "default": [
