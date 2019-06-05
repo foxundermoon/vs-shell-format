@@ -77,6 +77,7 @@ export class Formatter {
       try {
         let formatFlags = []; //todo add user configuration
         let settings = vscode.workspace.getConfiguration(configurationPrefix);
+        let withFlagI = false;
         if (settings) {
           let flag: string = settings["flag"];
           if (flag) {
@@ -87,10 +88,7 @@ export class Formatter {
               reject("-w config error");
             }
             if (flag.includes("-i")) {
-              vscode.window.showWarningMessage(
-                'config  by  "editor.tabSize": your tabSize  https://git.io/tabsize'
-              );
-              reject("-i config error");
+              withFlagI = true;
             }
 
             let flags = flag.split(" ");
@@ -115,7 +113,7 @@ export class Formatter {
             }
           }
         }
-        if (options && options.insertSpaces) {
+        if (options && options.insertSpaces && !withFlagI) {
           formatFlags.push("-i", options.tabSize);
         }
         let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags);
@@ -168,7 +166,7 @@ export class Formatter {
 
                 const diag: Diagnostic = {
                   range: new vscode.Range(
-                    new vscode.Position(line - 1, coloum),
+                    new vscode.Position(line, coloum),
                     new vscode.Position(line, coloum)
                   ),
                   message: errMsg.slice(
