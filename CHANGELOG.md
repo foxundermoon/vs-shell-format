@@ -3,8 +3,6 @@
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## 5.0.1
-- display format error on problems panel [#37](https://github.com/foxundermoon/vs-shell-format/issues/37)
-- remove showError configuration
 - support both `-i` flag and `editor.tabSize` setting
   
 ## 5.0.0
