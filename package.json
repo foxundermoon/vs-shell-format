@@ -176,6 +176,8 @@
         "webpack-cli": "^3.3.2"
     },
     "dependencies": {
-        "diff": "~3.0.0"
+        "@types/request": "^2.48.1",
+        "diff": "~3.0.0",
+        "request": "^2.88.0"
     }
 }
