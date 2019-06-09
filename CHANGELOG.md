@@ -2,6 +2,11 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
+
+## 6.0.0
+- Let the plugin work out of the box and automatically download the shfmt of the corresponding platform.
+- No longer get shfmt from PATH
+
 ## 5.0.1
 - support both `-i` flag and `editor.tabSize` setting
   
