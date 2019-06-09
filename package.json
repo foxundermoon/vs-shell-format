@@ -137,7 +137,7 @@
                         "null"
                     ],
                     "default": null,
-                    "description": "shfmt -h  to see detail usage , example: -i 4 -p"
+                    "description": "shfmt -h  to see detail usage , example: -p -bn -ci"
                 },
                 "shellformat.effectLanguages": {
                     "type": "array",

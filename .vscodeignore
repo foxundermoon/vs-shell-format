@@ -23,5 +23,5 @@ typings
 vsc-extension-quickstart.md
 webpack.config.json
 yarn.lock
-
+bin
 

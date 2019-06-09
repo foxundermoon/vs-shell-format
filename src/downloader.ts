@@ -118,6 +118,15 @@ export function getArchExtension(): Arch {
       return Arch.unknown;
   }
 }
+
+function getExecuteableFileExt() {
+  if (process.platform === "win32") {
+    return ".exe";
+  } else {
+    return "";
+  }
+}
+
 export function getPlatform(): Platform {
   switch (process.platform) {
     case "win32":
@@ -141,7 +150,9 @@ export function getPlatFormFilename() {
   if (arch === Arch.unknown || platform == Platform.unknown) {
     throw new Error("do not find release shfmt for your platform");
   }
-  return `shfmt_${config.shfmtVersion}_${platform}_${arch}`;
+  return `shfmt_${
+    config.shfmtVersion
+  }_${platform}_${arch}${getExecuteableFileExt()}`;
 }
 
 export function getReleaseDownloadUrl() {
@@ -181,26 +192,47 @@ export async function checkInstall(
   await ensureDirectory(path.dirname(destPath));
   const needDownload = await checkNeedInstall(destPath, output);
   if (needDownload) {
+    output.show();
     try {
       await cleanFile(destPath);
     } catch (err) {
       output.appendLine(
         `clean old file failed:[ ${destPath} ] ,please delete it mutual`
       );
+      output.show();
       return;
     }
     const url = getReleaseDownloadUrl();
     try {
-      output.appendLine("will download automated!");
+      output.appendLine("Shfmt will be downloaded automatically!");
+      output.appendLine(`download url: ${url}`);
+      output.appendLine(`download to: ${destPath}`);
+      output.appendLine(
+        `If the download fails, you can manually download it to the dest directory.`
+      );
+      output.appendLine(
+        'Or download to another directory, and then set the "shellformat.path" as the path'
+      );
+      output.appendLine(
+        `download shfmt page: https://github.com/mvdan/sh/releases`
+      );
+      output.appendLine(
+        `You can't use this plugin until the download is successful.`
+      );
+      output.show();
       await download2(url, destPath, (d, t) => {
         output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
+        output.show();
       });
       await fs.promises.chmod(destPath, 755);
-      output.appendLine(`download success`);
+      output.appendLine(`download success, You can use it successfully!`);
+      output.appendLine(
+        "Suggestions or issues can be submitted here https://git.io/vsshell-issues"
+      );
     } catch (err) {
       output.appendLine(`download failed: ${err}`);
     }
-    output.show(true);
+    output.show();
   }
 }
 
@@ -233,7 +265,8 @@ async function checkNeedInstall(
     }
     return needInstall;
   } catch (err) {
-    output.appendLine(`not download shfmt yet!`);
+    output.appendLine(`shfmt hasn't downloaded yet!`);
+    output.show();
     return true;
   }
 }
