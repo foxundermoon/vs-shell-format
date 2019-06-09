@@ -1,7 +1,10 @@
 import * as https from "https";
 import * as fs from "fs";
-import * as request from "request";
 import { IncomingMessage } from "http";
+import { config } from "./config";
+import * as vscode from "vscode";
+import * as path from "path";
+import * as child_process from "child_process";
 const MaxRedirects = 10;
 export interface DownloadProgress {
   (progress: number): void;
@@ -17,48 +20,7 @@ export async function download(
   path: string,
   progress?: DownloadProgress
 ): Promise<any> {
-  const fileStream = fs.createWriteStream(path);
-
-  return new Promise((resolve, reject) => {
-    const download = request
-      .get(url, { followAllRedirects: true }, (error, rsp) => {
-        if (rsp.statusCode >= 400) {
-          fileStream.close();
-          reject(
-            `download failed, status code :[${rsp.statusCode} , ${
-              rsp.statusMessage
-            }] `
-          );
-        } else if (rsp.statusCode === 302 || rsp.statusCode === 301) {
-          console.log(`may be request bugs`);
-        } else if (rsp.statusCode < 300) {
-          const len = parseInt(rsp.headers["content-length"], 10);
-          let downloaded = 0;
-
-          const rst: fs.WriteStream = rsp.pipe(fileStream);
-          rst
-            .on("error", err => {
-              fs.unlink(path, err => reject(err));
-              reject(err);
-            })
-            .on("finish", () => {
-              fileStream.close();
-              resolve(true);
-            });
-          if (progress) {
-            rst.on("data", (chunk: Buffer) => {
-              downloaded += chunk.length;
-              fileStream.write(chunk);
-              progress((downloaded * 1.0) / len);
-            });
-          }
-        }
-      })
-      .on("error", err => {
-        fs.unlink(path, err => reject(err));
-        reject(`download error : ${err}`);
-      });
-  });
+  // deprecated
 }
 
 export async function download2(
@@ -109,4 +71,181 @@ export async function download2(
       response.on("error", reject);
     }
   });
+}
+
+// const fileExtensionMap = {
+//   // 'arm', 'arm64', 'ia32', 'ppc', 'ppc64', 's390', 's390x', 'x32', and 'x64'
+//   arm: "arm",
+//   arm64: "arm",
+//   ia32: "386",
+//   mips: "mips",
+//   x32: "386",
+//   x64: "amd64"
+// };
+
+enum Arch {
+  arm = "arm",
+  arm64 = "arm",
+  i386 = "386",
+  mips = "mips",
+  x64 = "amd64",
+  unknown = "unknown"
+}
+
+enum Platform {
+  darwin = "darwin",
+  freebsd = "freebsd",
+  linux = "linux",
+  netbsd = "netbsd",
+  openbsd = "openbsd",
+  windows = "windows",
+  unknown = "unknown"
+}
+
+export function getArchExtension(): Arch {
+  switch (process.arch) {
+    case "arm":
+    case "arm64":
+      return Arch.arm;
+    case "ia32":
+    case "x32":
+      return Arch.i386;
+    case "x64":
+      return Arch.x64;
+    case "mips":
+      return Arch.mips;
+    default:
+      return Arch.unknown;
+  }
+}
+export function getPlatform(): Platform {
+  switch (process.platform) {
+    case "win32":
+      return Platform.windows;
+    case "freebsd":
+      return Platform.freebsd;
+    case "openbsd":
+      return Platform.openbsd;
+    case "darwin":
+      return Platform.darwin;
+    case "linux":
+      return Platform.linux;
+    default:
+      return Platform.unknown;
+  }
+}
+
+export function getPlatFormFilename() {
+  const arch = getArchExtension();
+  const platform = getPlatform();
+  if (arch === Arch.unknown || platform == Platform.unknown) {
+    throw new Error("do not find release shfmt for your platform");
+  }
+  return `shfmt_${config.shfmtVersion}_${platform}_${arch}`;
+}
+
+export function getReleaseDownloadUrl() {
+  // https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v2.6.4_darwin_amd64
+  return `https://github.com/mvdan/sh/releases/download/${
+    config.shfmtVersion
+  }/${getPlatFormFilename()}`;
+}
+
+export function getDestPath(context: vscode.ExtensionContext): string {
+  return path.join(context.extensionPath, "bin", getPlatFormFilename());
+}
+
+async function ensureDirectory(dir: string) {
+  let exists = await new Promise(resolve =>
+    fs.exists(dir, exists => resolve(exists))
+  );
+  if (!exists) {
+    await ensureDirectory(path.dirname(dir));
+    await new Promise((resolve, reject) =>
+      fs.mkdir(dir, err => {
+        if (err) reject(err);
+        else resolve();
+      })
+    );
+  }
+}
+
+export async function checkInstall(
+  context: vscode.ExtensionContext,
+  output: vscode.OutputChannel
+) {
+  if (!config.needCheckInstall) {
+    return;
+  }
+  const destPath = getDestPath(context);
+  await ensureDirectory(path.dirname(destPath));
+  const needDownload = await checkNeedInstall(destPath, output);
+  if (needDownload) {
+    try {
+      await cleanFile(destPath);
+    } catch (err) {
+      output.appendLine(
+        `clean old file failed:[ ${destPath} ] ,please delete it mutual`
+      );
+      return;
+    }
+    const url = getReleaseDownloadUrl();
+    try {
+      output.appendLine("will download automated!");
+      await download2(url, destPath, (d, t) => {
+        output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
+      });
+      await fs.promises.chmod(destPath, 755);
+      output.appendLine(`download success`);
+    } catch (err) {
+      output.appendLine(`download failed: ${err}`);
+    }
+    output.show(true);
+  }
+}
+
+async function cleanFile(file: string) {
+  try {
+    await fs.promises.access(file);
+  } catch (err) {
+    // ignore
+    return;
+  }
+  await fs.promises.unlink(file);
+}
+
+async function checkNeedInstall(
+  dest: string,
+  output: vscode.OutputChannel
+): Promise<boolean> {
+  try {
+    const version = await getInstalledVersion(dest);
+
+    const needInstall = version !== config.shfmtVersion;
+    if (!needInstall) {
+      config.needCheckInstall = false;
+    } else {
+      output.appendLine(
+        `current shfmt version : ${version}  ,is outdate to new version : ${
+          config.shfmtVersion
+        }`
+      );
+    }
+    return needInstall;
+  } catch (err) {
+    output.appendLine(`not download shfmt yet!`);
+    return true;
+  }
+}
+
+async function getInstalledVersion(dest: string): Promise<string> {
+  const stat = await fs.promises.stat(dest);
+  if (stat.isFile()) {
+    const v = child_process.execFileSync(dest, ["--version"], {
+      encoding: "utf8"
+    });
+    return v.replace("\n", "");
+  } else {
+    throw new Error(`[${dest}] is not file`);
+  }
 }
