@@ -3,6 +3,7 @@ import * as cp from "child_process";
 import * as path from "path";
 import * as fs from "fs";
 import { fileExists, getExecutableFileUnderPath } from "./pathUtil";
+import { output } from "./extension";
 
 import {
   isDiffToolAvailable,
@@ -21,6 +22,7 @@ import {
   TextEdit
 } from "vscode";
 
+import { getPlatFormFilename, getDestPath } from "./downloader";
 export const configurationPrefix = "shellformat";
 
 export enum ConfigItemName {
@@ -47,10 +49,17 @@ export class Formatter {
   static formatCommand = "shfmt";
   diagnosticCollection: DiagnosticCollection;
 
-  constructor() {
+  constructor(
+    public context: vscode.ExtensionContext,
+    public output: vscode.OutputChannel
+  ) {
     this.diagnosticCollection = vscode.languages.createDiagnosticCollection(
       "shell-format"
     );
+  }
+
+  getShfmtPath() {
+    return getDestPath(this.context);
   }
 
   public formatDocument(
@@ -104,13 +113,14 @@ export class Formatter {
               );
             }
           } else {
-            if (
-              !binPath &&
-              process.platform != "win32" &&
-              fileExists(defaultDownloadShfmtPath)
-            ) {
-              Formatter.formatCommand = defaultDownloadShfmtPath;
-            }
+            // if (
+            //   !binPath &&
+            //   process.platform != "win32" &&
+            //   fileExists(defaultDownloadShfmtPath)
+            // ) {
+            //   Formatter.formatCommand = defaultDownloadShfmtPath;
+            // }
+            Formatter.formatCommand = this.getShfmtPath();
           }
         }
         if (options && options.insertSpaces && !withFlagI) {
@@ -194,15 +204,12 @@ export class Formatter {
 
 export class ShellDocumentFormattingEditProvider
   implements vscode.DocumentFormattingEditProvider {
-  private formatter: Formatter;
   private settings: vscode.WorkspaceConfiguration;
 
-  constructor(formatter?: Formatter, settings?: vscode.WorkspaceConfiguration) {
-    if (formatter) {
-      this.formatter = formatter;
-    } else {
-      this.formatter = new Formatter();
-    }
+  constructor(
+    public formatter: Formatter,
+    settings?: vscode.WorkspaceConfiguration
+  ) {
     if (settings === undefined) {
       this.settings = vscode.workspace.getConfiguration(configurationPrefix);
     } else {
@@ -222,6 +229,11 @@ export class ShellDocumentFormattingEditProvider
     return this.formatter.formatDocument(document, options);
   }
 }
+
+/**
+ * deprecated
+ * will clean
+ *  */
 
 export function checkEnv() {
   const settings = vscode.workspace.getConfiguration(configurationPrefix);
@@ -276,6 +288,7 @@ export function checkEnv() {
   }
 }
 
+
 function showMamualInstallMessage() {
   vscode.window.showErrorMessage(
     `[${configurationPrefix}.${
@@ -299,6 +312,7 @@ function installFmtForMaxos() {
   }
 }
 
+/** will clean */
 function installForLinux() {
   //todo fix the ubuntu permission issue
   return;
@@ -354,6 +368,9 @@ function getDownloadUrl(): String {
   }
 }
 
+/**
+ * will clean
+ */
 function isExecutedFmtCommand(): Boolean {
   return getExecutableFileUnderPath(Formatter.formatCommand) != null;
 }

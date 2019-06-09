@@ -7,6 +7,8 @@ import {
   ConfigItemName
 } from "./shFormat";
 
+import { checkInstall } from "./downloader";
+
 export enum DocumentFilterScheme {
   File = "file",
   Untitled = "untitled"
@@ -15,14 +17,16 @@ export enum DocumentFilterScheme {
 const formatOnSaveConfig = "editor.formatOnSave";
 const formatDocumentCommand = "editor.action.formatDocument";
 
+export const output = vscode.window.createOutputChannel("shellformat");
 export function activate(context: vscode.ExtensionContext) {
   const settings = vscode.workspace.getConfiguration(configurationPrefix);
-  const shfmter = new Formatter();
+  const shfmter = new Formatter(context, output);
   const shFmtProvider = new ShellDocumentFormattingEditProvider(
     shfmter,
     settings
   );
-  checkEnv();
+  // checkEnv();
+  checkInstall(context, output);
   const effectLanguages = settings.get<string[]>(
     ConfigItemName.EffectLanguages
   );
