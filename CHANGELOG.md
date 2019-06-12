@@ -2,6 +2,8 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 6.0.1
+- fix issue[#40](https://github.com/foxundermoon/vs-shell-format/issues/40) Cursor focus is stolen by update
 
 ## 6.0.0
 - Let the plugin work out of the box and automatically download the shfmt of the corresponding platform.
