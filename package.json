@@ -2,7 +2,7 @@
     "name": "shell-format",
     "displayName": "shell-format",
     "description": "shellscript、Dockerfile、properties、gitignore、dotenv、hosts、jvmoptions... DocumentFormat",
-    "version": "6.0.0",
+    "version": "6.0.1",
     "publisher": "foxundermoon",
     "engines": {
         "vscode": "^1.30.0"
