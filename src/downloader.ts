@@ -222,7 +222,6 @@ export async function checkInstall(
       output.show();
       await download2(url, destPath, (d, t) => {
         output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
-        output.show();
       });
       await fs.promises.chmod(destPath, 755);
       output.appendLine(`download success, You can use it successfully!`);
