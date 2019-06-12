@@ -64,7 +64,6 @@ and config `shellformat.path`
 
 - `shellformat.path`the shfmt fullpath example [mac,linux]: `/usr/local/bin/shfmt` [windows]: `C:\\bin\\shfmt.exe`
 - `shellformat.flag`shfmt -h to see detailed usage.
-- `shellformat.showError` show error message when format. default true.
 
 ---
 
