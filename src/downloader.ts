@@ -26,7 +26,9 @@ export async function download(
 export async function download2(
   srcUrl: string,
   destPath: string,
-  progress?: (downloaded: number, contentLength?: number) => void
+  progress?: (downloaded: number,
+    contentLength?: number,
+    prev_downloaded?: number) => void
 ) {
   return new Promise(async (resolve, reject) => {
     let response;
@@ -61,9 +63,11 @@ export async function download2(
           ? Number.parseInt(response.headers["content-length"])
           : null;
         let downloaded = 0;
+        let old_downloaded = 0;
         response.on("data", chunk => {
+          old_downloaded = downloaded;
           downloaded += chunk.length;
-          progress(downloaded, contentLength);
+          progress(downloaded, contentLength, old_downloaded);
         });
       }
       pipeStm.on("finish", resolve);
@@ -152,14 +156,14 @@ export function getPlatFormFilename() {
   }
   return `shfmt_${
     config.shfmtVersion
-  }_${platform}_${arch}${getExecuteableFileExt()}`;
+    }_${platform}_${arch}${getExecuteableFileExt()}`;
 }
 
 export function getReleaseDownloadUrl() {
   // https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v2.6.4_darwin_amd64
   return `https://github.com/mvdan/sh/releases/download/${
     config.shfmtVersion
-  }/${getPlatFormFilename()}`;
+    }/${getPlatFormFilename()}`;
 }
 
 export function getDestPath(context: vscode.ExtensionContext): string {
@@ -220,8 +224,12 @@ export async function checkInstall(
         `You can't use this plugin until the download is successful.`
       );
       output.show();
-      await download2(url, destPath, (d, t) => {
-        output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
+      await download2(url, destPath, (d, t, p) => {
+        if (Math.floor(p / 5) < Math.floor(d / 5)) {
+          output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
+        } else {
+          output.append('.');
+        }
       });
       await fs.promises.chmod(destPath, 755);
       output.appendLine(`download success, You can use it successfully!`);
@@ -258,7 +266,7 @@ async function checkNeedInstall(
     } else {
       output.appendLine(
         `current shfmt version : ${version}  ,is outdate to new version : ${
-          config.shfmtVersion
+        config.shfmtVersion
         }`
       );
     }
