@@ -51,11 +51,6 @@ build | release |
 
 <kbd>shift</kbd>+<kbd>command</kbd>+<kbd>p</kbd> then type `Format Document`
 
-###  special for Windows
-download excutable binary file
-from https://github.com/mvdan/sh/releases
-and config `shellformat.path`
-
 ## dependencies
 
 - [shfmt](https://github.com/mvdan/sh#shfmt)
