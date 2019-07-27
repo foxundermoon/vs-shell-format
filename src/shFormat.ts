@@ -293,7 +293,7 @@ function showMamualInstallMessage() {
   vscode.window.showErrorMessage(
     `[${configurationPrefix}.${
       ConfigItemName.Path
-    }]not found!  please install  manual https://mvdan.cc/sh/cmd/shfmt `
+    }]not found!  please install manually https://mvdan.cc/sh/cmd/shfmt `
   );
 }
 function installFmtForMaxos() {
@@ -346,12 +346,12 @@ function installForLinux() {
     }
     terminal.sendText("echo '**Enjoy shellscript!**'", true);
     terminal.sendText(
-      "echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'",
+      "echo 'fork or star https://github.com/foxundermoon/vs-shell-format'",
       true
     );
   } catch (error) {
     vscode.window.showWarningMessage(
-      "install shfmt faild , please install manual https://mvdan.cc/sh/cmd/shfmt"
+      "install shfmt failed , please install manually https://mvdan.cc/sh/cmd/shfmt"
     );
   }
 }
