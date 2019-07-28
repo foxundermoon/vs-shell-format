@@ -117,6 +117,12 @@
                 "extensions": [
                     ".properties"
                 ]
+            },
+            {
+                "id": "azcli",
+                "extensions": [
+                    ".azcli"
+                ]
             }
         ],
         "configuration": {

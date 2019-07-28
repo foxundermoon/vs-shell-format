@@ -1,7 +1,10 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
-
+## 6.1.0
+- Reduce output information influx [#43](https://github.com/foxundermoon/vs-shell-format/pull/43)
+- azure cli support
+  
 ## 6.0.1
 - fix issue[#40](https://github.com/foxundermoon/vs-shell-format/issues/40) Cursor focus is stolen by update
 
