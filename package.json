@@ -18,7 +18,8 @@
         "onLanguage:hosts",
         "onLanguage:jvmoptions",
         "onLanguage:properties",
-        "onLanguage:spring-boot-properties"
+        "onLanguage:spring-boot-properties",
+        "onLanguage:azcli"
     ],
     "main": "./dist/extension",
     "capabilities": {
@@ -47,7 +48,9 @@
         "jvmoptions",
         "vmoptions",
         "bashrc",
-        "zshrc"
+        "zshrc",
+        "azcli",
+        "azure cli tool"
     ],
     "contributes": {
         "languages": [
@@ -156,9 +159,10 @@
                         "ignore",
                         "gitignore",
                         "properties",
-                        "spring-boot-properties"
+                        "spring-boot-properties",
+                        "azcli"
                     ],
-                    "description": "kust effec  on the language"
+                    "description": "the trigger effect  on the language"
                 }
             }
         }

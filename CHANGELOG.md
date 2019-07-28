@@ -1,6 +1,9 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
+## 6.0.1
+- add effect language
+
 ## 6.1.0
 - Reduce output information influx [#43](https://github.com/foxundermoon/vs-shell-format/pull/43)
 - azure cli support
