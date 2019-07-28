@@ -1,7 +1,7 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
-## 6.0.1
+## 6.1.1
 - add effect language
 
 ## 6.1.0
