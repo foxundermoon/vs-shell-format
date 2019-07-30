@@ -374,3 +374,8 @@ function getDownloadUrl(): String {
 function isExecutedFmtCommand(): Boolean {
   return getExecutableFileUnderPath(Formatter.formatCommand) != null;
 }
+
+export function getSettings(key: string) {
+    let settings = vscode.workspace.getConfiguration(configurationPrefix);
+    return key !== undefined ? settings[key] : null;
+}
