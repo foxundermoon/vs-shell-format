@@ -5,6 +5,8 @@ import { config } from "./config";
 import * as vscode from "vscode";
 import * as path from "path";
 import * as child_process from "child_process";
+import { getSettings } from "./shFormat"
+
 const MaxRedirects = 10;
 export interface DownloadProgress {
   (progress: number): void;
@@ -167,7 +169,8 @@ export function getReleaseDownloadUrl() {
 }
 
 export function getDestPath(context: vscode.ExtensionContext): string {
-  return path.join(context.extensionPath, "bin", getPlatFormFilename());
+  let shfmtPath: string = getSettings("path");
+  return shfmtPath || path.join(context.extensionPath, "bin", getPlatFormFilename());
 }
 
 async function ensureDirectory(dir: string) {
@@ -272,7 +275,7 @@ async function checkNeedInstall(
     }
     return needInstall;
   } catch (err) {
-    output.appendLine(`shfmt hasn't downloaded yet!`);
+    output.appendLine(`shfmt hasn't downloaded yet!` + err);
     output.show();
     return true;
   }
