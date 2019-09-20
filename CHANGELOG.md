@@ -1,6 +1,9 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
+## 6.1.2
+- fix check install bug [#46](https://github.com/foxundermoon/vs-shell-format/issues/46)
+  
 ## 6.1.1
 - add effect language
 

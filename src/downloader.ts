@@ -5,8 +5,8 @@ import { config } from "./config";
 import * as vscode from "vscode";
 import * as path from "path";
 import * as child_process from "child_process";
-import { getSettings } from "./shFormat"
-
+import { getSettings } from "./shFormat";
+import { shellformatPath } from "./extension";
 const MaxRedirects = 10;
 export interface DownloadProgress {
   (progress: number): void;
@@ -28,9 +28,11 @@ export async function download(
 export async function download2(
   srcUrl: string,
   destPath: string,
-  progress?: (downloaded: number,
+  progress?: (
+    downloaded: number,
     contentLength?: number,
-    prev_downloaded?: number) => void
+    prev_downloaded?: number
+  ) => void
 ) {
   return new Promise(async (resolve, reject) => {
     let response;
@@ -158,19 +160,21 @@ export function getPlatFormFilename() {
   }
   return `shfmt_${
     config.shfmtVersion
-    }_${platform}_${arch}${getExecuteableFileExt()}`;
+  }_${platform}_${arch}${getExecuteableFileExt()}`;
 }
 
 export function getReleaseDownloadUrl() {
   // https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v2.6.4_darwin_amd64
   return `https://github.com/mvdan/sh/releases/download/${
     config.shfmtVersion
-    }/${getPlatFormFilename()}`;
+  }/${getPlatFormFilename()}`;
 }
 
 export function getDestPath(context: vscode.ExtensionContext): string {
   let shfmtPath: string = getSettings("path");
-  return shfmtPath || path.join(context.extensionPath, "bin", getPlatFormFilename());
+  return (
+    shfmtPath || path.join(context.extensionPath, "bin", getPlatFormFilename())
+  );
 }
 
 async function ensureDirectory(dir: string) {
@@ -231,7 +235,7 @@ export async function checkInstall(
         if (Math.floor(p / 5) < Math.floor(d / 5)) {
           output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
         } else {
-          output.append('.');
+          output.append(".");
         }
       });
       await fs.promises.chmod(destPath, 755);
@@ -261,6 +265,21 @@ async function checkNeedInstall(
   output: vscode.OutputChannel
 ): Promise<boolean> {
   try {
+    const configPath = vscode.workspace
+      .getConfiguration()
+      .get<string>(shellformatPath);
+    if (configPath) {
+      try {
+        await fs.promises.access(configPath, fs.constants.X_OK);
+        config.needCheckInstall = false;
+        return false;
+      } catch (err) {
+        output.appendLine(
+          `"${shellformatPath}": "${configPath}"   find config shellformat path ,but the file cannot execute or not exists, so will auto download shfmt`
+        );
+      }
+    }
+
     const version = await getInstalledVersion(dest);
 
     const needInstall = version !== config.shfmtVersion;
@@ -268,9 +287,7 @@ async function checkNeedInstall(
       config.needCheckInstall = false;
     } else {
       output.appendLine(
-        `current shfmt version : ${version}  ,is outdate to new version : ${
-        config.shfmtVersion
-        }`
+        `current shfmt version : ${version}  ,is outdate to new version : ${config.shfmtVersion}`
       );
     }
     return needInstall;
