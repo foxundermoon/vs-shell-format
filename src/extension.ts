@@ -17,6 +17,8 @@ export enum DocumentFilterScheme {
 const formatOnSaveConfig = "editor.formatOnSave";
 const formatDocumentCommand = "editor.action.formatDocument";
 
+export const shellformatPath = "shellformat.path";
+
 export const output = vscode.window.createOutputChannel("shellformat");
 export function activate(context: vscode.ExtensionContext) {
   const settings = vscode.workspace.getConfiguration(configurationPrefix);
