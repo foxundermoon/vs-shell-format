@@ -1,6 +1,9 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
+## 6.1.3
+- fix Strange file permissions for binary file  [#50](https://github.com/foxundermoon/vs-shell-format/issues/50)
+  
 ## 6.1.2
 - fix check install bug [#46](https://github.com/foxundermoon/vs-shell-format/issues/46)
   
