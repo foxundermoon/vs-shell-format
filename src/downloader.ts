@@ -60,7 +60,7 @@ export async function download2(
     if (response.headers["content-type"] != "application/octet-stream") {
       reject(new Error("HTTP response does not contain an octet stream"));
     } else {
-      let stm = fs.createWriteStream(destPath);
+      let stm = fs.createWriteStream(destPath, { mode: 0o755 });
       let pipeStm = response.pipe(stm);
       if (progress) {
         let contentLength = response.headers["content-length"]
@@ -238,7 +238,7 @@ export async function checkInstall(
           output.append(".");
         }
       });
-      await fs.promises.chmod(destPath, 755);
+      // await fs.promises.chmod(destPath, 755);
       output.appendLine(`download success, You can use it successfully!`);
       output.appendLine(
         "Suggestions or issues can be submitted here https://git.io/vsshell-issues"
