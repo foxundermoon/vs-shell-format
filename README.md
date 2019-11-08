@@ -14,7 +14,7 @@
 
 | language    | extension                 | describe              |
 | ----------- | ------------------------- | --------------------- |
-| shellscript | .sh .bash .zsh            | shell script files    |
+| shellscript | .sh .bash                 | shell script files    |
 | dockerfile  | Dockerfile                | docker files          |
 | ignore      | .gitignore  .dockerignore | ignore files          |
 | properties  | .properties               | java properties files |
