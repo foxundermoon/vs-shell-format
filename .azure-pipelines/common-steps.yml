@@ -2,52 +2,52 @@
 #
 # Things which happen regardless of CI, PR, or release builds
 steps:
-- script: npm install
-  displayName: npm install
+  - script: npm install
+    displayName: npm install
 
-- script: npm run compile
-  displayName: Build extension
+  - script: npm run compile
+    displayName: Build extension
 
-# - script: npm run test
-#   displayName: npm run test
+  # - script: npm run test
+  #   displayName: npm run test
 
-# Acquire the `vsce` tool and use it to package
-- script: |
-    sudo npm install -g vsce
-    vsce package
-  displayName: Create VSIX
+  # Acquire the `vsce` tool and use it to package
+  - script: |
+      sudo npm install -g vsce
+      vsce package
+    displayName: Create VSIX
 
-- script: |
-    npm run vscode:prepublish
-    cat /home/vsts/.npm/_logs/*.log
-  displayName: Echo npm error logs on failure
-  condition: failed()
+  - script: |
+      npm run vscode:prepublish
+      cat /home/vsts/.npm/_logs/*.log
+    displayName: Echo npm error logs on failure
+    condition: failed()
 
-# For releasable builds, we'll want the branch and the changelog
-# Expects that a 'version.txt' has been laid down by a previous step
-# https://regex101.com/r/xrBmAt/1
-- bash: |
-    echo $(Build.SourceBranch) | sed "s|refs/[^/]*/||" > branch.txt
-    PACKAGE_VERSION=$(cat version.txt)
-    VERSION_REGEX="## $(echo $PACKAGE_VERSION | sed 's/\./\\./g')"
-    sed -n "/$VERSION_REGEX/,/## /p" CHANGELOG.md | sed '$d' > minichangelog.txt
-    cat minichangelog.txt
-  displayName: Get branch and mini-changelog
+  # For releasable builds, we'll want the branch and the changelog
+  # Expects that a 'version.txt' has been laid down by a previous step
+  # https://regex101.com/r/xrBmAt/1
+  - bash: |
+      echo $(Build.SourceBranch) | sed "s|refs/[^/]*/||" > branch.txt
+      PACKAGE_VERSION=$(cat version.txt)
+      VERSION_REGEX="## $(echo $PACKAGE_VERSION | sed 's/\./\\./g')"
+      sed -n "/$VERSION_REGEX/,/## /p" CHANGELOG.md | sed '$d' > minichangelog.txt
+      cat minichangelog.txt
+    displayName: Get branch and mini-changelog
 
-# Choose files to publish
-- task: CopyFiles@2
-  displayName: Stage VSIX for publishing
-  inputs:
-    contents: |-
-      *.vsix
-      version.txt
-      branch.txt
-      minichangelog.txt
-    targetFolder: $(Build.ArtifactStagingDirectory)
+  # Choose files to publish
+  - task: CopyFiles@2
+    displayName: Stage VSIX for publishing
+    inputs:
+      contents: |-
+        *.vsix
+        version.txt
+        branch.txt
+        minichangelog.txt
+      targetFolder: $(Build.ArtifactStagingDirectory)
 
-# Publish files as an artifact
-- task: PublishBuildArtifacts@1
-  displayName: Publish VSIX
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: vs-shell-format
+  # Publish files as an artifact
+  - task: PublishBuildArtifacts@1
+    displayName: Publish VSIX
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: vs-shell-format

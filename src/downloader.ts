@@ -1,12 +1,12 @@
-import * as https from "https";
-import * as fs from "fs";
-import { IncomingMessage } from "http";
-import { config } from "./config";
-import * as vscode from "vscode";
-import * as path from "path";
-import * as child_process from "child_process";
-import { getSettings } from "./shFormat";
-import { shellformatPath } from "./extension";
+import * as https from 'https';
+import * as fs from 'fs';
+import { IncomingMessage } from 'http';
+import { config } from './config';
+import * as vscode from 'vscode';
+import * as path from 'path';
+import * as child_process from 'child_process';
+import { getSettings } from './shFormat';
+import { shellformatPath } from './extension';
 const MaxRedirects = 10;
 export interface DownloadProgress {
   (progress: number): void;
@@ -28,55 +28,41 @@ export async function download(
 export async function download2(
   srcUrl: string,
   destPath: string,
-  progress?: (
-    downloaded: number,
-    contentLength?: number,
-    prev_downloaded?: number
-  ) => void
+  progress?: (downloaded: number, contentLength?: number, prev_downloaded?: number) => void
 ) {
   return new Promise(async (resolve, reject) => {
     let response;
     for (let i = 0; i < MaxRedirects; ++i) {
-      response = await new Promise<IncomingMessage>(resolve =>
-        https.get(srcUrl, resolve)
-      );
-      if (
-        response.statusCode >= 300 &&
-        response.statusCode < 400 &&
-        response.headers.location
-      ) {
+      response = await new Promise<IncomingMessage>(resolve => https.get(srcUrl, resolve));
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
         srcUrl = response.headers.location;
       } else {
         break;
       }
     }
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      reject(
-        new Error(
-          `HTTP status ${response.statusCode} : ${response.statusMessage}`
-        )
-      );
+      reject(new Error(`HTTP status ${response.statusCode} : ${response.statusMessage}`));
     }
-    if (response.headers["content-type"] != "application/octet-stream") {
-      reject(new Error("HTTP response does not contain an octet stream"));
+    if (response.headers['content-type'] != 'application/octet-stream') {
+      reject(new Error('HTTP response does not contain an octet stream'));
     } else {
       let stm = fs.createWriteStream(destPath, { mode: 0o755 });
       let pipeStm = response.pipe(stm);
       if (progress) {
-        let contentLength = response.headers["content-length"]
-          ? Number.parseInt(response.headers["content-length"])
+        let contentLength = response.headers['content-length']
+          ? Number.parseInt(response.headers['content-length'])
           : null;
         let downloaded = 0;
         let old_downloaded = 0;
-        response.on("data", chunk => {
+        response.on('data', chunk => {
           old_downloaded = downloaded;
           downloaded += chunk.length;
           progress(downloaded, contentLength, old_downloaded);
         });
       }
-      pipeStm.on("finish", resolve);
-      pipeStm.on("error", reject);
-      response.on("error", reject);
+      pipeStm.on('finish', resolve);
+      pipeStm.on('error', reject);
+      response.on('error', reject);
     }
   });
 }
@@ -92,35 +78,35 @@ export async function download2(
 // };
 
 enum Arch {
-  arm = "arm",
-  arm64 = "arm",
-  i386 = "386",
-  mips = "mips",
-  x64 = "amd64",
-  unknown = "unknown"
+  arm = 'arm',
+  arm64 = 'arm',
+  i386 = '386',
+  mips = 'mips',
+  x64 = 'amd64',
+  unknown = 'unknown',
 }
 
 enum Platform {
-  darwin = "darwin",
-  freebsd = "freebsd",
-  linux = "linux",
-  netbsd = "netbsd",
-  openbsd = "openbsd",
-  windows = "windows",
-  unknown = "unknown"
+  darwin = 'darwin',
+  freebsd = 'freebsd',
+  linux = 'linux',
+  netbsd = 'netbsd',
+  openbsd = 'openbsd',
+  windows = 'windows',
+  unknown = 'unknown',
 }
 
 export function getArchExtension(): Arch {
   switch (process.arch) {
-    case "arm":
-    case "arm64":
+    case 'arm':
+    case 'arm64':
       return Arch.arm;
-    case "ia32":
-    case "x32":
+    case 'ia32':
+    case 'x32':
       return Arch.i386;
-    case "x64":
+    case 'x64':
       return Arch.x64;
-    case "mips":
+    case 'mips':
       return Arch.mips;
     default:
       return Arch.unknown;
@@ -128,24 +114,24 @@ export function getArchExtension(): Arch {
 }
 
 function getExecuteableFileExt() {
-  if (process.platform === "win32") {
-    return ".exe";
+  if (process.platform === 'win32') {
+    return '.exe';
   } else {
-    return "";
+    return '';
   }
 }
 
 export function getPlatform(): Platform {
   switch (process.platform) {
-    case "win32":
+    case 'win32':
       return Platform.windows;
-    case "freebsd":
+    case 'freebsd':
       return Platform.freebsd;
-    case "openbsd":
+    case 'openbsd':
       return Platform.openbsd;
-    case "darwin":
+    case 'darwin':
       return Platform.darwin;
-    case "linux":
+    case 'linux':
       return Platform.linux;
     default:
       return Platform.unknown;
@@ -156,11 +142,9 @@ export function getPlatFormFilename() {
   const arch = getArchExtension();
   const platform = getPlatform();
   if (arch === Arch.unknown || platform == Platform.unknown) {
-    throw new Error("do not find release shfmt for your platform");
+    throw new Error('do not find release shfmt for your platform');
   }
-  return `shfmt_${
-    config.shfmtVersion
-  }_${platform}_${arch}${getExecuteableFileExt()}`;
+  return `shfmt_${config.shfmtVersion}_${platform}_${arch}${getExecuteableFileExt()}`;
 }
 
 export function getReleaseDownloadUrl() {
@@ -171,16 +155,12 @@ export function getReleaseDownloadUrl() {
 }
 
 export function getDestPath(context: vscode.ExtensionContext): string {
-  let shfmtPath: string = getSettings("path");
-  return (
-    shfmtPath || path.join(context.extensionPath, "bin", getPlatFormFilename())
-  );
+  let shfmtPath: string = getSettings('path');
+  return shfmtPath || path.join(context.extensionPath, 'bin', getPlatFormFilename());
 }
 
 async function ensureDirectory(dir: string) {
-  let exists = await new Promise(resolve =>
-    fs.exists(dir, exists => resolve(exists))
-  );
+  let exists = await new Promise(resolve => fs.exists(dir, exists => resolve(exists)));
   if (!exists) {
     await ensureDirectory(path.dirname(dir));
     await new Promise((resolve, reject) =>
@@ -192,10 +172,7 @@ async function ensureDirectory(dir: string) {
   }
 }
 
-export async function checkInstall(
-  context: vscode.ExtensionContext,
-  output: vscode.OutputChannel
-) {
+export async function checkInstall(context: vscode.ExtensionContext, output: vscode.OutputChannel) {
   if (!config.needCheckInstall) {
     return;
   }
@@ -207,15 +184,13 @@ export async function checkInstall(
     try {
       await cleanFile(destPath);
     } catch (err) {
-      output.appendLine(
-        `clean old file failed:[ ${destPath} ] ,please delete it mutual`
-      );
+      output.appendLine(`clean old file failed:[ ${destPath} ] ,please delete it mutual`);
       output.show();
       return;
     }
     const url = getReleaseDownloadUrl();
     try {
-      output.appendLine("Shfmt will be downloaded automatically!");
+      output.appendLine('Shfmt will be downloaded automatically!');
       output.appendLine(`download url: ${url}`);
       output.appendLine(`download to: ${destPath}`);
       output.appendLine(
@@ -224,24 +199,20 @@ export async function checkInstall(
       output.appendLine(
         'Or download to another directory, and then set the "shellformat.path" as the path'
       );
-      output.appendLine(
-        `download shfmt page: https://github.com/mvdan/sh/releases`
-      );
-      output.appendLine(
-        `You can't use this plugin until the download is successful.`
-      );
+      output.appendLine(`download shfmt page: https://github.com/mvdan/sh/releases`);
+      output.appendLine(`You can't use this plugin until the download is successful.`);
       output.show();
       await download2(url, destPath, (d, t, p) => {
         if (Math.floor(p / 5) < Math.floor(d / 5)) {
           output.appendLine(`downloaded:[${((100.0 * d) / t).toFixed(2)}%]`);
         } else {
-          output.append(".");
+          output.append('.');
         }
       });
       // await fs.promises.chmod(destPath, 755);
       output.appendLine(`download success, You can use it successfully!`);
       output.appendLine(
-        "Suggestions or issues can be submitted here https://git.io/vsshell-issues"
+        'Suggestions or issues can be submitted here https://git.io/vsshell-issues'
       );
     } catch (err) {
       output.appendLine(`download failed: ${err}`);
@@ -260,14 +231,9 @@ async function cleanFile(file: string) {
   await fs.promises.unlink(file);
 }
 
-async function checkNeedInstall(
-  dest: string,
-  output: vscode.OutputChannel
-): Promise<boolean> {
+async function checkNeedInstall(dest: string, output: vscode.OutputChannel): Promise<boolean> {
   try {
-    const configPath = vscode.workspace
-      .getConfiguration()
-      .get<string>(shellformatPath);
+    const configPath = vscode.workspace.getConfiguration().get<string>(shellformatPath);
     if (configPath) {
       try {
         await fs.promises.access(configPath, fs.constants.X_OK);
@@ -301,10 +267,10 @@ async function checkNeedInstall(
 async function getInstalledVersion(dest: string): Promise<string> {
   const stat = await fs.promises.stat(dest);
   if (stat.isFile()) {
-    const v = child_process.execFileSync(dest, ["--version"], {
-      encoding: "utf8"
+    const v = child_process.execFileSync(dest, ['--version'], {
+      encoding: 'utf8',
     });
-    return v.replace("\n", "");
+    return v.replace('\n', '');
   } else {
     throw new Error(`[${dest}] is not file`);
   }

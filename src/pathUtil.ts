@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
 let binPathCache: { [bin: string]: string } = {};
 export function getExecutableFileUnderPath(toolName: string) {
@@ -8,7 +8,7 @@ export function getExecutableFileUnderPath(toolName: string) {
     return cachePath;
   }
   toolName = correctBinname(toolName);
-  let paths = process.env["PATH"].split(path.delimiter);
+  let paths = process.env['PATH'].split(path.delimiter);
   for (let i = 0; i < paths.length; i++) {
     let binpath = path.join(paths[i], toolName);
     if (fileExists(binpath)) {
@@ -20,7 +20,7 @@ export function getExecutableFileUnderPath(toolName: string) {
 }
 
 function correctBinname(binname: string) {
-  if (process.platform === "win32") return binname + ".exe";
+  if (process.platform === 'win32') return binname + '.exe';
   else return binname;
 }
 

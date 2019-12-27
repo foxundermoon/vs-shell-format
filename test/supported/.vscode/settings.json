@@ -1,8 +1,8 @@
 {
-    "files.associations": {
-        // "*.js": "javascriptreact"
-        // "hosts": "shellscript",
-        // "*.vmoptions":"shellscript"
-    },
-    "editor.lineNumbers": "off",
+  "files.associations": {
+    // "*.js": "javascriptreact"
+    // "hosts": "shellscript",
+    // "*.vmoptions":"shellscript"
+  },
+  "editor.lineNumbers": "off"
 }

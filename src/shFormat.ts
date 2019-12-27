@@ -1,15 +1,11 @@
-import * as vscode from "vscode";
-import * as cp from "child_process";
-import * as path from "path";
-import * as fs from "fs";
-import { fileExists, getExecutableFileUnderPath } from "./pathUtil";
-import { output } from "./extension";
+import * as vscode from 'vscode';
+import * as cp from 'child_process';
+import * as path from 'path';
+import * as fs from 'fs';
+import { fileExists, getExecutableFileUnderPath } from './pathUtil';
+import { output } from './extension';
 
-import {
-  isDiffToolAvailable,
-  getEdits,
-  getEditsFromUnifiedDiffStr
-} from "../src/diffUtils";
+import { isDiffToolAvailable, getEdits, getEditsFromUnifiedDiffStr } from '../src/diffUtils';
 
 import {
   Diagnostic,
@@ -19,53 +15,45 @@ import {
   TextDocument,
   Position,
   FormattingOptions,
-  TextEdit
-} from "vscode";
+  TextEdit,
+} from 'vscode';
 
-import { getPlatFormFilename, getDestPath } from "./downloader";
-export const configurationPrefix = "shellformat";
+import { getPlatFormFilename, getDestPath } from './downloader';
+export const configurationPrefix = 'shellformat';
 
 export enum ConfigItemName {
-  Flag = "flag",
-  Path = "path",
-  EffectLanguages = "effectLanguages",
-  ShowError = "showError"
+  Flag = 'flag',
+  Path = 'path',
+  EffectLanguages = 'effectLanguages',
+  ShowError = 'showError',
 }
 
-const shfmtVersion = "v2.6.4";
+const shfmtVersion = 'v2.6.4';
 
-const defaultDownloadDirParrent = "/usr/local";
-const defaultDownloadDir = "/usr/local/bin";
+const defaultDownloadDirParrent = '/usr/local';
+const defaultDownloadDir = '/usr/local/bin';
 const defaultDownloadShfmtPath = `${defaultDownloadDir}/shfmt`;
 const fileExtensionMap = {
-  arm: "arm",
-  arm64: "arm",
-  ia32: "386",
-  mips: "mips",
-  x32: "386",
-  x64: "amd64"
+  arm: 'arm',
+  arm64: 'arm',
+  ia32: '386',
+  mips: 'mips',
+  x32: '386',
+  x64: 'amd64',
 };
 export class Formatter {
-  static formatCommand = "shfmt";
+  static formatCommand = 'shfmt';
   diagnosticCollection: DiagnosticCollection;
 
-  constructor(
-    public context: vscode.ExtensionContext,
-    public output: vscode.OutputChannel
-  ) {
-    this.diagnosticCollection = vscode.languages.createDiagnosticCollection(
-      "shell-format"
-    );
+  constructor(public context: vscode.ExtensionContext, public output: vscode.OutputChannel) {
+    this.diagnosticCollection = vscode.languages.createDiagnosticCollection('shell-format');
   }
 
   getShfmtPath() {
     return getDestPath(this.context);
   }
 
-  public formatDocument(
-    document: TextDocument,
-    options?: FormattingOptions
-  ): Thenable<TextEdit[]> {
+  public formatDocument(document: TextDocument, options?: FormattingOptions): Thenable<TextEdit[]> {
     const start = new Position(0, 0);
     const end = new vscode.Position(
       document.lineCount - 1,
@@ -88,28 +76,26 @@ export class Formatter {
         let settings = vscode.workspace.getConfiguration(configurationPrefix);
         let withFlagI = false;
         if (settings) {
-          let flag: string = settings["flag"];
+          let flag: string = settings['flag'];
           if (flag) {
-            if (flag.includes("-w")) {
-              vscode.window.showWarningMessage(
-                "can not set -w flag  please fix config"
-              );
-              reject("-w config error");
+            if (flag.includes('-w')) {
+              vscode.window.showWarningMessage('can not set -w flag  please fix config');
+              reject('-w config error');
             }
-            if (flag.includes("-i")) {
+            if (flag.includes('-i')) {
               withFlagI = true;
             }
 
-            let flags = flag.split(" ");
+            let flags = flag.split(' ');
             formatFlags.push(...flags);
           }
-          let binPath: string = settings["path"];
+          let binPath: string = settings['path'];
           if (binPath) {
             if (fileExists(binPath)) {
               Formatter.formatCommand = binPath;
             } else {
               vscode.window.showErrorMessage(
-                "the config shellformat.path file not exists please fix it"
+                'the config shellformat.path file not exists please fix it'
               );
             }
           } else {
@@ -124,13 +110,13 @@ export class Formatter {
           }
         }
         if (options && options.insertSpaces && !withFlagI) {
-          formatFlags.push("-i", options.tabSize);
+          formatFlags.push('-i', options.tabSize);
         }
         let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags);
         let output: Buffer[] = [];
         let errorOutput: Buffer[] = [];
         let textEdits: TextEdit[] = [];
-        fmtSpawn.stdout.on("data", chunk => {
+        fmtSpawn.stdout.on('data', chunk => {
           let bc: Buffer;
           if (chunk instanceof Buffer) {
             bc = chunk;
@@ -139,7 +125,7 @@ export class Formatter {
           }
           output.push(bc);
         });
-        fmtSpawn.stderr.on("data", chunk => {
+        fmtSpawn.stderr.on('data', chunk => {
           let bc: Buffer;
           if (chunk instanceof Buffer) {
             bc = chunk;
@@ -149,7 +135,7 @@ export class Formatter {
           errorOutput.push(bc);
         });
 
-        fmtSpawn.on("close", (code, signal) => {
+        fmtSpawn.on('close', (code, signal) => {
           if (code == 0) {
             this.diagnosticCollection.delete(document.uri);
             if (output.length == 0) {
@@ -164,7 +150,7 @@ export class Formatter {
               resolve(textEdits);
             }
           } else {
-            let errMsg = "";
+            let errMsg = '';
             if (errorOutput.length != 0) {
               errMsg = Buffer.concat(errorOutput).toString();
 
@@ -179,11 +165,8 @@ export class Formatter {
                     new vscode.Position(line, coloum),
                     new vscode.Position(line, coloum)
                   ),
-                  message: errMsg.slice(
-                    "<standard input>:".length,
-                    errMsg.length
-                  ),
-                  severity: DiagnosticSeverity.Error
+                  message: errMsg.slice('<standard input>:'.length, errMsg.length),
+                  severity: DiagnosticSeverity.Error,
                 };
                 this.diagnosticCollection.delete(document.uri);
                 this.diagnosticCollection.set(document.uri, [diag]);
@@ -196,20 +179,16 @@ export class Formatter {
         fmtSpawn.stdin.write(content);
         fmtSpawn.stdin.end();
       } catch (e) {
-        reject("Internal issues when formatted content");
+        reject('Internal issues when formatted content');
       }
     });
   }
 }
 
-export class ShellDocumentFormattingEditProvider
-  implements vscode.DocumentFormattingEditProvider {
+export class ShellDocumentFormattingEditProvider implements vscode.DocumentFormattingEditProvider {
   private settings: vscode.WorkspaceConfiguration;
 
-  constructor(
-    public formatter: Formatter,
-    settings?: vscode.WorkspaceConfiguration
-  ) {
+  constructor(public formatter: Formatter, settings?: vscode.WorkspaceConfiguration) {
     if (settings === undefined) {
       this.settings = vscode.workspace.getConfiguration(configurationPrefix);
     } else {
@@ -241,10 +220,8 @@ export function checkEnv() {
   if (settings) {
     let flag: string = settings.get(ConfigItemName.Flag);
     if (flag) {
-      if (flag.includes("-w")) {
-        vscode.window.showWarningMessage(
-          "can not set -w flag  please fix config"
-        );
+      if (flag.includes('-w')) {
+        vscode.window.showWarningMessage('can not set -w flag  please fix config');
       }
     }
     let binPath: string = settings.get(ConfigItemName.Path);
@@ -254,27 +231,21 @@ export function checkEnv() {
         this.formatCommand = binPath;
       } else {
         vscode.window.showErrorMessage(
-          `the config [${configurationPrefix}.${
-            ConfigItemName.Path
-          }] file not exists please fix it`
+          `the config [${configurationPrefix}.${ConfigItemName.Path}] file not exists please fix it`
         );
       }
     }
   }
-  if (
-    !configBinPath &&
-    !isExecutedFmtCommand() &&
-    !fileExists(defaultDownloadShfmtPath)
-  ) {
-    if (process.platform == "darwin") {
+  if (!configBinPath && !isExecutedFmtCommand() && !fileExists(defaultDownloadShfmtPath)) {
+    if (process.platform == 'darwin') {
       installFmtForMaxos();
     } else if (
       [
         // "android",
         // "darwin",
-        "freebsd",
-        "linux",
-        "openbsd"
+        'freebsd',
+        'linux',
+        'openbsd',
         // "sunos",
         // "win32",
         // "cygwin"
@@ -288,25 +259,19 @@ export function checkEnv() {
   }
 }
 
-
 function showMamualInstallMessage() {
   vscode.window.showErrorMessage(
-    `[${configurationPrefix}.${
-      ConfigItemName.Path
-    }]not found!  please install manually https://mvdan.cc/sh/cmd/shfmt `
+    `[${configurationPrefix}.${ConfigItemName.Path}]not found!  please install manually https://mvdan.cc/sh/cmd/shfmt `
   );
 }
 function installFmtForMaxos() {
-  if (getExecutableFileUnderPath("brew")) {
-    vscode.window.showInformationMessage("will install shfmt by brew");
+  if (getExecutableFileUnderPath('brew')) {
+    vscode.window.showInformationMessage('will install shfmt by brew');
     const terminal = vscode.window.createTerminal();
     terminal.show();
-    terminal.sendText("brew install shfmt", true);
+    terminal.sendText('brew install shfmt', true);
     terminal.sendText("echo '**Enjoy shellscript!**'", true);
-    terminal.sendText(
-      "echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'",
-      true
-    );
+    terminal.sendText("echo 'fork or star  https://github.com/foxundermoon/vs-shell-format'", true);
   } else {
     installForLinux();
   }
@@ -318,7 +283,7 @@ function installForLinux() {
   return;
   try {
     const url = getDownloadUrl();
-    vscode.window.showInformationMessage("will install shfmt by curl");
+    vscode.window.showInformationMessage('will install shfmt by curl');
     const terminal = vscode.window.createTerminal();
     terminal.show();
     if (!fs.existsSync(defaultDownloadDir)) {
@@ -332,26 +297,17 @@ function installForLinux() {
 
     try {
       fs.accessSync(defaultDownloadDir, fs.constants.W_OK);
-      terminal.sendText(
-        `curl -L '${url}' --output  /usr/local/bin/shfmt`,
-        true
-      );
+      terminal.sendText(`curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
       terminal.sendText(`chmod a+x /usr/local/bin/shfmt`, true);
     } catch (err) {
-      terminal.sendText(
-        `sudo curl -L '${url}' --output  /usr/local/bin/shfmt`,
-        true
-      );
+      terminal.sendText(`sudo curl -L '${url}' --output  /usr/local/bin/shfmt`, true);
       terminal.sendText(`sudo chmod a+x /usr/local/bin/shfmt`, true);
     }
     terminal.sendText("echo '**Enjoy shellscript!**'", true);
-    terminal.sendText(
-      "echo 'fork or star https://github.com/foxundermoon/vs-shell-format'",
-      true
-    );
+    terminal.sendText("echo 'fork or star https://github.com/foxundermoon/vs-shell-format'", true);
   } catch (error) {
     vscode.window.showWarningMessage(
-      "install shfmt failed , please install manually https://mvdan.cc/sh/cmd/shfmt"
+      'install shfmt failed , please install manually https://mvdan.cc/sh/cmd/shfmt'
     );
   }
 }
@@ -359,12 +315,10 @@ function installForLinux() {
 function getDownloadUrl(): String {
   try {
     const extension = fileExtensionMap[process.arch];
-    const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${
-      process.platform
-    }_${extension}`;
+    const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${process.platform}_${extension}`;
     return url;
   } catch (error) {
-    throw new Error("nor sourport");
+    throw new Error('nor sourport');
   }
 }
 
@@ -376,6 +330,6 @@ function isExecutedFmtCommand(): Boolean {
 }
 
 export function getSettings(key: string) {
-    let settings = vscode.workspace.getConfiguration(configurationPrefix);
-    return key !== undefined ? settings[key] : null;
+  let settings = vscode.workspace.getConfiguration(configurationPrefix);
+  return key !== undefined ? settings[key] : null;
 }

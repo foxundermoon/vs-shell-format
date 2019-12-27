@@ -1,10 +1,9 @@
-const Octokit = require("@octokit/rest");
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const fs = require("fs");
+const Octokit = require('@octokit/rest');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const fs = require('fs');
 
-const DEBUG_LOGGING =
-  process.env.SYSTEM_DEBUG && process.env.SYSTEM_DEBUG == "true";
+const DEBUG_LOGGING = process.env.SYSTEM_DEBUG && process.env.SYSTEM_DEBUG == 'true';
 let vsixName = process.argv[2] || null;
 let version = process.argv[3] || null;
 let token = process.argv[4] || null;
@@ -23,45 +22,45 @@ This is intended to be run by the release pipeline only.`);
 async function createRelease() {
   const octokit = new Octokit({
     auth: `token ${token}`,
-    userAgent: "azure-pipelines/vscode-release-pipeline v1.0",
+    userAgent: 'azure-pipelines/vscode-release-pipeline v1.0',
     request: {
       timeout: 0,
-      agent: undefined
+      agent: undefined,
     },
-    baseUrl: "https://api.github.com",
+    baseUrl: 'https://api.github.com',
     log: {
       debug: () => {},
       info: () => {},
       warn: console.warn,
-      error: console.error
-    }
+      error: console.error,
+    },
   });
 
   let target_commitish;
   if (process.env.BUILD_SOURCEBRANCH) {
     target_commitish = process.env.BUILD_SOURCEBRANCH;
   } else {
-    const { stdout: head_commit } = await exec("git rev-parse --verify HEAD");
+    const { stdout: head_commit } = await exec('git rev-parse --verify HEAD');
     target_commitish = head_commit.trim();
   }
 
-  const { stdout: body } = await exec("cat minichangelog.txt");
+  const { stdout: body } = await exec('cat minichangelog.txt');
 
-  console.log("Creating release...");
+  console.log('Creating release...');
   let createReleaseResult;
   try {
     createReleaseResult = await octokit.repos.createRelease({
-      owner: "foxundermoon",
-      repo: "vs-shell-format",
+      owner: 'foxundermoon',
+      repo: 'vs-shell-format',
       tag_name: `v${version}`,
       target_commitish: target_commitish,
       name: `${version}`,
-      body: body
+      body: body,
     });
   } catch (e) {
     throw e;
   }
-  console.log("Created release.");
+  console.log('Created release.');
 
   if (DEBUG_LOGGING) {
     console.log(createReleaseResult);
@@ -69,22 +68,22 @@ async function createRelease() {
 
   const vsixSize = fs.statSync(vsixName).size;
 
-  console.log("Uploading VSIX...");
+  console.log('Uploading VSIX...');
   let uploadResult;
   try {
     uploadResult = await octokit.repos.uploadReleaseAsset({
       url: createReleaseResult.data.upload_url,
       headers: {
-        "content-length": vsixSize,
-        "content-type": "application/zip"
+        'content-length': vsixSize,
+        'content-type': 'application/zip',
       },
       name: vsixName,
-      file: fs.createReadStream(vsixName)
+      file: fs.createReadStream(vsixName),
     });
   } catch (e) {
     throw e;
   }
-  console.log("Uploaded VSIX.");
+  console.log('Uploaded VSIX.');
 
   if (DEBUG_LOGGING) {
     console.log(uploadResult);

@@ -1,35 +1,45 @@
 # Change Log
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
+
 ## 6.1.3
-- fix Strange file permissions for binary file  [#50](https://github.com/foxundermoon/vs-shell-format/issues/50)
-  
+
+- fix Strange file permissions for binary file [#50](https://github.com/foxundermoon/vs-shell-format/issues/50)
+
 ## 6.1.2
+
 - fix check install bug [#46](https://github.com/foxundermoon/vs-shell-format/issues/46)
-  
+
 ## 6.1.1
+
 - add effect language
 
 ## 6.1.0
+
 - Reduce output information influx [#43](https://github.com/foxundermoon/vs-shell-format/pull/43)
 - azure cli support
-  
+
 ## 6.0.1
+
 - fix issue[#40](https://github.com/foxundermoon/vs-shell-format/issues/40) Cursor focus is stolen by update
 
 ## 6.0.0
+
 - Let the plugin work out of the box and automatically download the shfmt of the corresponding platform.
 - No longer get shfmt from PATH
 
 ## 5.0.1
+
 - support both `-i` flag and `editor.tabSize` setting
-  
+
 ## 5.0.0
+
 - display format error on problems panel [#37](https://github.com/foxundermoon/vs-shell-format/issues/37)
 - remove showError configuration
 
 ## 4.0.11
-- resolve 1 vulnerability  https://www.npmjs.com/advisories/803
+
+- resolve 1 vulnerability https://www.npmjs.com/advisories/803
 
 ## 4.0.10
 

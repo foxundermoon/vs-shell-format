@@ -10,64 +10,63 @@ pool:
   vmImage: ubuntu-16.04
 
 steps:
-# release version should be correctly set in package.json
-- bash: |
-    PACKAGE_VERSION=$(cat package.json | jq '.version')
-    echo "PACKAGE_VERSION=$PACKAGE_VERSION"
-    PUBLISHED_VERSION=$(curl 'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery' \
-      -H 'origin: https://marketplace.visualstudio.com' \
-      -H 'pragma: no-cache' \
-      -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36' \
-      -H 'content-type: application/json' \
-      -H 'accept: application/json;api-version=5.1-preview.1;excludeUrls=true' \
-      -H 'cache-control: no-cache' \-H 'authority: marketplace.visualstudio.com' \
-      -H 'referer: https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format' \
-      --data-binary '{"assetTypes":null,"filters":[{"criteria":[{"filterType":7,"value":"foxundermoon.shell-format"}],"direction":2,"pageSize":1,"pageNumber":1,"sortBy":0,"sortOrder":0,"pagingToken":null}],"flags":71}' |
-      jq '.results[0].extensions[0].versions[0].version')
-    echo "PUBLISHED_VERSION=$PUBLISHED_VERSION"
-    if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
-      echo 'niddend published'
-      exit 1
-    else
-      echo "need publish"
-      exit 0
-    fi
-  displayName: check need publish
-- bash: |
-    PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    echo "##vso[build.updatebuildnumber]${PACKAGE_VERSION}_release_${BUILD_BUILDID}"
-    echo "$PACKAGE_VERSION" > version.txt
-  displayName: Set version number of build
+  # release version should be correctly set in package.json
+  - bash: |
+      PACKAGE_VERSION=$(cat package.json | jq '.version')
+      echo "PACKAGE_VERSION=$PACKAGE_VERSION"
+      PUBLISHED_VERSION=$(curl 'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery' \
+        -H 'origin: https://marketplace.visualstudio.com' \
+        -H 'pragma: no-cache' \
+        -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36' \
+        -H 'content-type: application/json' \
+        -H 'accept: application/json;api-version=5.1-preview.1;excludeUrls=true' \
+        -H 'cache-control: no-cache' \-H 'authority: marketplace.visualstudio.com' \
+        -H 'referer: https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format' \
+        --data-binary '{"assetTypes":null,"filters":[{"criteria":[{"filterType":7,"value":"foxundermoon.shell-format"}],"direction":2,"pageSize":1,"pageNumber":1,"sortBy":0,"sortOrder":0,"pagingToken":null}],"flags":71}' |
+        jq '.results[0].extensions[0].versions[0].version')
+      echo "PUBLISHED_VERSION=$PUBLISHED_VERSION"
+      if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
+        echo 'niddend published'
+        exit 1
+      else
+        echo "need publish"
+        exit 0
+      fi
+    displayName: check need publish
+  - bash: |
+      PACKAGE_VERSION=$(node -p "require('./package.json').version")
+      echo "##vso[build.updatebuildnumber]${PACKAGE_VERSION}_release_${BUILD_BUILDID}"
+      echo "$PACKAGE_VERSION" > version.txt
+    displayName: Set version number of build
 
-# do all the normal build stuff
-- template: common-steps.yml
+  # do all the normal build stuff
+  - template: common-steps.yml
 
-# if the mini changelog is empty, complain
-- bash: |
-    LINE_COUNT=$(cat minichangelog.txt | wc -l)
-    if [ "$LINE_COUNT" -lt 3 ]; then
-      echo Mini changelog is too short. Did you use the wrong version number in CHANGELOG.txt?
-      exit 1
-    fi
-  displayName: Check for length of mini-changelog
+  # if the mini changelog is empty, complain
+  - bash: |
+      LINE_COUNT=$(cat minichangelog.txt | wc -l)
+      if [ "$LINE_COUNT" -lt 3 ]; then
+        echo Mini changelog is too short. Did you use the wrong version number in CHANGELOG.txt?
+        exit 1
+      fi
+    displayName: Check for length of mini-changelog
 
-# create a GitHub Release
-- bash: |
-    export npm_config_cache=$(Build.SourcesDirectory)/.azure-pipelines/github-release/npm-cache
-    npm install
-  displayName: Prepare to create GitHub Release
-  workingDirectory: '$(Build.SourcesDirectory)/.azure-pipelines/github-release'
-- bash: |
-    SCRIPT=.azure-pipelines/github-release/github-release.js
-    VSIX=*.vsix
-    VERSION=$(node -p "require('./package.json').version")
-    node $SCRIPT $VSIX $VERSION $GITHUB_TOKEN
-  displayName: Create GitHub Release
-  env:
-    GITHUB_TOKEN: $(github.token)
-- bash: |
-    vsce publish -p $VS_MARKETPLACE_TOKEN
-  displayName: publish to marketing
-  env:
-    VS_MARKETPLACE_TOKEN: $(vs.marketplace.token)
-
+  # create a GitHub Release
+  - bash: |
+      export npm_config_cache=$(Build.SourcesDirectory)/.azure-pipelines/github-release/npm-cache
+      npm install
+    displayName: Prepare to create GitHub Release
+    workingDirectory: '$(Build.SourcesDirectory)/.azure-pipelines/github-release'
+  - bash: |
+      SCRIPT=.azure-pipelines/github-release/github-release.js
+      VSIX=*.vsix
+      VERSION=$(node -p "require('./package.json').version")
+      node $SCRIPT $VSIX $VERSION $GITHUB_TOKEN
+    displayName: Create GitHub Release
+    env:
+      GITHUB_TOKEN: $(github.token)
+  - bash: |
+      vsce publish -p $VS_MARKETPLACE_TOKEN
+    displayName: publish to marketing
+    env:
+      VS_MARKETPLACE_TOKEN: $(vs.marketplace.token)

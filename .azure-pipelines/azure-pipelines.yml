@@ -10,7 +10,7 @@
 #   vsce package
 #   (give VSIX to someone for buddy testing)
 trigger:
-- master
+  - master
 
 # no `pr` keyword because we want all PRs to run this
 
@@ -18,20 +18,20 @@ pool:
   vmImage: ubuntu-16.04
 
 steps:
-# for convenience, we tag CI-produced packages with a version number
-# pointing to the commit which was built. for PRs, also include the PR #.
-- bash: |
-    PACKAGE_VERSION=$(node -p "require('./package.json').version")
+  # for convenience, we tag CI-produced packages with a version number
+  # pointing to the commit which was built. for PRs, also include the PR #.
+  - bash: |
+      PACKAGE_VERSION=$(node -p "require('./package.json').version")
 
-    if [ -n "$SYSTEM_PULLREQUEST_PULLREQUESTNUMBER" ]; then
-      VERSION_STRING=${PACKAGE_VERSION}-pr-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-$(git rev-parse --short HEAD)
-    else
-      VERSION_STRING=${PACKAGE_VERSION}-ci-$(git rev-parse --short HEAD)
-    fi
+      if [ -n "$SYSTEM_PULLREQUEST_PULLREQUESTNUMBER" ]; then
+        VERSION_STRING=${PACKAGE_VERSION}-pr-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-$(git rev-parse --short HEAD)
+      else
+        VERSION_STRING=${PACKAGE_VERSION}-ci-$(git rev-parse --short HEAD)
+      fi
 
-    npm --no-git-tag-version version $VERSION_STRING
-    echo "##vso[build.updatebuildnumber]${VERSION_STRING}_${BUILD_BUILDID}"
-    echo "$PACKAGE_VERSION" > version.txt
-  displayName: Set version number of package and build
+      npm --no-git-tag-version version $VERSION_STRING
+      echo "##vso[build.updatebuildnumber]${VERSION_STRING}_${BUILD_BUILDID}"
+      echo "$PACKAGE_VERSION" > version.txt
+    displayName: Set version number of package and build
 
-- template: common-steps.yml
+  - template: common-steps.yml
