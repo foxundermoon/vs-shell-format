@@ -2,6 +2,11 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 7.0.0
+
+- bump shfmt to 3.0.0
+- add prettier and husky to project
+
 ## 6.1.3
 
 - fix Strange file permissions for binary file [#50](https://github.com/foxundermoon/vs-shell-format/issues/50)
