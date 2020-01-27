@@ -2,7 +2,7 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 7.0.0
+## 7.0.1
 
 - bump shfmt to 3.0.1 #65
 
