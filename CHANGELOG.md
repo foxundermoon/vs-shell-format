@@ -4,6 +4,10 @@ Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how
 
 ## 7.0.0
 
+- bump shfmt to 3.0.1 #65
+
+## 7.0.0
+
 - bump shfmt to 3.0.0
 - add prettier and husky to project
 
