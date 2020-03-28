@@ -9,6 +9,6 @@
   "author": "create by Microsoft fix by fox",
   "license": "MIT",
   "dependencies": {
-    "@octokit/rest": "^16.25.0"
+    "@octokit/rest": "^17.0.0"
   }
 }
