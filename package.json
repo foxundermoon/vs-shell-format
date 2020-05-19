@@ -190,7 +190,7 @@
   },
   "devDependencies": {
     "@types/mocha": "7.0.2",
-    "@types/node": "10.17.17",
+    "@types/node": "10.17.24",
     "husky": "4.2.3",
     "lint-staged": "10.0.9",
     "mocha": "7.1.1",
