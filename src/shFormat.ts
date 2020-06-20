@@ -27,6 +27,7 @@ export enum ConfigItemName {
   Path = 'path',
   EffectLanguages = 'effectLanguages',
   ShowError = 'showError',
+  UseEditorConfig = 'useEditorConfig',
 }
 
 const defaultDownloadDirParrent = '/usr/local';
@@ -74,8 +75,17 @@ export class Formatter {
         let formatFlags = []; //todo add user configuration
         let settings = vscode.workspace.getConfiguration(configurationPrefix);
         let withFlagI = false;
+        let spawnOptions = {};
         if (settings) {
           let flag: string = settings['flag'];
+          let useEditorConfig: boolean = settings['useEditorConfig'];
+          if (useEditorConfig) {
+            spawnOptions['cwd'] = path.dirname(document.uri.fsPath);
+            withFlagI = true;
+            if (flag) {
+              flag = '';
+            }
+          }
           if (flag) {
             if (flag.includes('-w')) {
               vscode.window.showWarningMessage('can not set -w flag  please fix config');
@@ -111,7 +121,7 @@ export class Formatter {
         if (options && options.insertSpaces && !withFlagI) {
           formatFlags.push('-i', options.tabSize);
         }
-        let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags);
+        let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags, spawnOptions);
         let output: Buffer[] = [];
         let errorOutput: Buffer[] = [];
         let textEdits: TextEdit[] = [];
