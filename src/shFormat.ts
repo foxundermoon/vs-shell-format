@@ -18,6 +18,7 @@ import {
   TextEdit,
 } from 'vscode';
 
+import { config } from './config';
 import { getPlatFormFilename, getDestPath } from './downloader';
 export const configurationPrefix = 'shellformat';
 
@@ -27,8 +28,6 @@ export enum ConfigItemName {
   EffectLanguages = 'effectLanguages',
   ShowError = 'showError',
 }
-
-const shfmtVersion = 'v2.6.4';
 
 const defaultDownloadDirParrent = '/usr/local';
 const defaultDownloadDir = '/usr/local/bin';
@@ -116,7 +115,7 @@ export class Formatter {
         let output: Buffer[] = [];
         let errorOutput: Buffer[] = [];
         let textEdits: TextEdit[] = [];
-        fmtSpawn.stdout.on('data', chunk => {
+        fmtSpawn.stdout.on('data', (chunk) => {
           let bc: Buffer;
           if (chunk instanceof Buffer) {
             bc = chunk;
@@ -125,7 +124,7 @@ export class Formatter {
           }
           output.push(bc);
         });
-        fmtSpawn.stderr.on('data', chunk => {
+        fmtSpawn.stderr.on('data', (chunk) => {
           let bc: Buffer;
           if (chunk instanceof Buffer) {
             bc = chunk;
@@ -144,7 +143,7 @@ export class Formatter {
               let result = Buffer.concat(output).toString();
               let filePatch = getEdits(document.fileName, content, result);
 
-              filePatch.edits.forEach(edit => {
+              filePatch.edits.forEach((edit) => {
                 textEdits.push(edit.apply());
               });
               resolve(textEdits);
@@ -315,7 +314,7 @@ function installForLinux() {
 function getDownloadUrl(): String {
   try {
     const extension = fileExtensionMap[process.arch];
-    const url = `https://github.com/mvdan/sh/releases/download/${shfmtVersion}/shfmt_${shfmtVersion}_${process.platform}_${extension}`;
+    const url = `https://github.com/mvdan/sh/releases/download/${config.shfmtVersion}/shfmt_${config.shfmtVersion}_${process.platform}_${extension}`;
     return url;
   } catch (error) {
     throw new Error('nor sourport');
