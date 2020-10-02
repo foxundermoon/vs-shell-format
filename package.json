@@ -200,7 +200,7 @@
     "ts-loader": "8.0.3",
     "typescript": "3.9.6",
     "vscode": "1.1.37",
-    "webpack": "4.43.0",
+    "webpack": "4.44.1",
     "webpack-cli": "3.3.12"
   },
   "dependencies": {
