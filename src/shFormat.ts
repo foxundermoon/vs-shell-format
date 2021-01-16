@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as cp from 'child_process';
+import * as child_process from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileExists, getExecutableFileUnderPath } from './pathUtil';
@@ -17,6 +17,7 @@ import {
   FormattingOptions,
   TextEdit,
 } from 'vscode';
+import * as editorconfig from 'editorconfig';
 
 import { config } from './config';
 import { getPlatFormFilename, getDestPath } from './downloader';
@@ -72,123 +73,169 @@ export class Formatter {
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
       try {
-        let formatFlags = []; //todo add user configuration
         let settings = vscode.workspace.getConfiguration(configurationPrefix);
-        let withFlagI = false;
-        let spawnOptions = {};
-        if (settings) {
-          let flag: string = settings['flag'];
-          let useEditorConfig: boolean = settings['useEditorConfig'];
-          if (useEditorConfig) {
-            spawnOptions['cwd'] = path.dirname(document.uri.fsPath);
-            withFlagI = true;
-            if (flag) {
-              flag = '';
-            }
+        let binPath: string = settings['path'];
+        let flag: string = settings['flag'];
+
+        let shfmtFlags = []; // TODO: Add user configuration
+        let shfmtIndent = false;
+
+        if (binPath) {
+          if (fileExists(binPath)) {
+            Formatter.formatCommand = binPath;
+          } else {
+            let errMsg = `Invalid shfmt path in extension configuration: ${binPath}`;
+            vscode.window.showErrorMessage(errMsg);
+            reject(errMsg);
           }
+        } else {
+          Formatter.formatCommand = this.getShfmtPath();
+        }
+
+        if (settings.useEditorConfig) {
           if (flag) {
-            if (flag.includes('-w')) {
-              vscode.window.showWarningMessage('can not set -w flag  please fix config');
-              reject('-w config error');
-            }
-            if (flag.includes('-i')) {
-              withFlagI = true;
-            }
+            flag = '';
+            output.appendLine('shfmt flags will be ignored as EditorConfig mode is enabled.');
+          }
 
-            let flags = flag.split(' ');
-            formatFlags.push(...flags);
-          }
-          let binPath: string = settings['path'];
-          if (binPath) {
-            if (fileExists(binPath)) {
-              Formatter.formatCommand = binPath;
-            } else {
-              vscode.window.showErrorMessage(
-                'the config shellformat.path file not exists please fix it'
-              );
+          let edcfgOptions = editorconfig.parseSync(document.fileName);
+          output.appendLine(
+            `EditorConfig for file "${document.fileName}": ${JSON.stringify(edcfgOptions)}`
+          );
+
+          if (edcfgOptions.indent_style === 'tab') {
+            shfmtFlags.push('-i=0');
+            shfmtIndent = true;
+          } else if (edcfgOptions.indent_style === 'space') {
+            if (typeof edcfgOptions.indent_size === 'number') {
+              shfmtFlags.push(`-i=${edcfgOptions.indent_size}`);
+              shfmtIndent = true;
             }
-          } else {
-            // if (
-            //   !binPath &&
-            //   process.platform != "win32" &&
-            //   fileExists(defaultDownloadShfmtPath)
-            // ) {
-            //   Formatter.formatCommand = defaultDownloadShfmtPath;
-            // }
-            Formatter.formatCommand = this.getShfmtPath();
+          }
+
+          if (edcfgOptions['shell_variant']) {
+            shfmtFlags.push(`-ln=${edcfgOptions['shell_variant']}`);
+          }
+
+          if (edcfgOptions['binary_next_line']) {
+            shfmtFlags.push('-bn');
+          }
+
+          if (edcfgOptions['switch_case_indent']) {
+            shfmtFlags.push('-ci');
+          }
+
+          if (edcfgOptions['space_redirects']) {
+            shfmtFlags.push('-sr');
+          }
+
+          if (edcfgOptions['keep_padding']) {
+            shfmtFlags.push('-kp');
+          }
+
+          if (edcfgOptions['function_next_line']) {
+            shfmtFlags.push('-fn');
           }
         }
-        if (options && options.insertSpaces && !withFlagI) {
-          formatFlags.push('-i', options.tabSize);
+
+        if (flag) {
+          if (flag.includes('-w')) {
+            let errMsg = 'Incompatible flag specified in shellformat.flag: -w';
+            vscode.window.showWarningMessage(errMsg);
+            reject(errMsg);
+          }
+
+          if (flag.includes('-i')) {
+            shfmtIndent = true;
+          }
+
+          let flags = flag.split(' ');
+          shfmtFlags.push(...flags);
         }
-        let fmtSpawn = cp.spawn(Formatter.formatCommand, formatFlags, spawnOptions);
-        let output: Buffer[] = [];
-        let errorOutput: Buffer[] = [];
+
+        if (options?.insertSpaces && !shfmtIndent) {
+          shfmtFlags.push(`-i=${options.tabSize}`);
+        }
+
+        if (shfmtFlags) {
+          output.appendLine(`Effective shfmt flags: ${shfmtFlags}`);
+        }
+
+        let shfmt = child_process.spawn(Formatter.formatCommand, shfmtFlags);
+
+        let shfmtOut: Buffer[] = [];
+        shfmt.stdout.on('data', (chunk) => {
+          let bc: Buffer;
+          if (chunk instanceof Buffer) {
+            bc = chunk;
+          } else {
+            bc = new Buffer(chunk);
+          }
+          shfmtOut.push(bc);
+        });
+        let shfmtErr: Buffer[] = [];
+        shfmt.stderr.on('data', (chunk) => {
+          let bc: Buffer;
+          if (chunk instanceof Buffer) {
+            bc = chunk;
+          } else {
+            bc = new Buffer(chunk);
+          }
+          shfmtErr.push(bc);
+        });
+
         let textEdits: TextEdit[] = [];
-        fmtSpawn.stdout.on('data', (chunk) => {
-          let bc: Buffer;
-          if (chunk instanceof Buffer) {
-            bc = chunk;
-          } else {
-            bc = new Buffer(chunk);
-          }
-          output.push(bc);
-        });
-        fmtSpawn.stderr.on('data', (chunk) => {
-          let bc: Buffer;
-          if (chunk instanceof Buffer) {
-            bc = chunk;
-          } else {
-            bc = new Buffer(chunk);
-          }
-          errorOutput.push(bc);
-        });
-
-        fmtSpawn.on('close', (code, signal) => {
+        shfmt.on('close', (code, signal) => {
           if (code == 0) {
             this.diagnosticCollection.delete(document.uri);
-            if (output.length == 0) {
-              resolve(null);
-            } else {
-              let result = Buffer.concat(output).toString();
+
+            if (shfmtOut.length != 0) {
+              let result = Buffer.concat(shfmtOut).toString();
               let filePatch = getEdits(document.fileName, content, result);
 
               filePatch.edits.forEach((edit) => {
                 textEdits.push(edit.apply());
               });
+
               resolve(textEdits);
+            } else {
+              resolve(null);
             }
           } else {
             let errMsg = '';
-            if (errorOutput.length != 0) {
-              errMsg = Buffer.concat(errorOutput).toString();
+
+            if (shfmtErr.length != 0) {
+              errMsg = Buffer.concat(shfmtErr).toString();
 
               // https://regex101.com/r/uPoLKg/2/
-              let m = /^<standard input>:(\d+):(\d+):/.exec(errMsg);
-              if (m !== null && m.length > 2) {
-                let line = parseInt(m[1]);
-                let coloum = parseInt(m[2]);
+              let errLoc = /^<standard input>:(\d+):(\d+):/.exec(errMsg);
+
+              if (errLoc !== null && errLoc.length > 2) {
+                let line = parseInt(errLoc[1]);
+                let column = parseInt(errLoc[2]);
 
                 const diag: Diagnostic = {
                   range: new vscode.Range(
-                    new vscode.Position(line, coloum),
-                    new vscode.Position(line, coloum)
+                    new vscode.Position(line, column),
+                    new vscode.Position(line, column)
                   ),
                   message: errMsg.slice('<standard input>:'.length, errMsg.length),
                   severity: DiagnosticSeverity.Error,
                 };
+
                 this.diagnosticCollection.delete(document.uri);
                 this.diagnosticCollection.set(document.uri, [diag]);
               }
             }
-            // vscode.window.showWarningMessage('shell format error  please commit one issue to me:' + errMsg);
+
             reject(errMsg);
           }
         });
-        fmtSpawn.stdin.write(content);
-        fmtSpawn.stdin.end();
+
+        shfmt.stdin.write(content);
+        shfmt.stdin.end();
       } catch (e) {
-        reject('Internal issues when formatted content');
+        reject(`Fatal error calling shfmt: ${e}`);
       }
     });
   }
