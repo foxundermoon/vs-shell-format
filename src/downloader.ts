@@ -79,7 +79,7 @@ export async function download2(
 
 enum Arch {
   arm = 'arm',
-  arm64 = 'arm',
+  arm64 = 'arm64',
   i386 = '386',
   mips = 'mips',
   x64 = 'amd64',
@@ -99,8 +99,9 @@ enum Platform {
 export function getArchExtension(): Arch {
   switch (process.arch) {
     case 'arm':
-    case 'arm64':
       return Arch.arm;
+    case 'arm64':
+      return Arch.arm64;
     case 'ia32':
     case 'x32':
       return Arch.i386;
