@@ -36,7 +36,7 @@ const defaultDownloadDir = '/usr/local/bin';
 const defaultDownloadShfmtPath = `${defaultDownloadDir}/shfmt`;
 const fileExtensionMap = {
   arm: 'arm',
-  arm64: 'arm',
+  arm64: 'arm64',
   ia32: '386',
   mips: 'mips',
   x32: '386',

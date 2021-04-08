@@ -33,7 +33,7 @@ export async function download2(
   return new Promise(async (resolve, reject) => {
     let response;
     for (let i = 0; i < MaxRedirects; ++i) {
-      response = await new Promise<IncomingMessage>(resolve => https.get(srcUrl, resolve));
+      response = await new Promise<IncomingMessage>((resolve) => https.get(srcUrl, resolve));
       if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
         srcUrl = response.headers.location;
       } else {
@@ -54,7 +54,7 @@ export async function download2(
           : null;
         let downloaded = 0;
         let old_downloaded = 0;
-        response.on('data', chunk => {
+        response.on('data', (chunk) => {
           old_downloaded = downloaded;
           downloaded += chunk.length;
           progress(downloaded, contentLength, old_downloaded);
@@ -79,7 +79,7 @@ export async function download2(
 
 enum Arch {
   arm = 'arm',
-  arm64 = 'arm',
+  arm64 = 'arm64',
   i386 = '386',
   mips = 'mips',
   x64 = 'amd64',
@@ -99,8 +99,9 @@ enum Platform {
 export function getArchExtension(): Arch {
   switch (process.arch) {
     case 'arm':
-    case 'arm64':
       return Arch.arm;
+    case 'arm64':
+      return Arch.arm64;
     case 'ia32':
     case 'x32':
       return Arch.i386;
@@ -160,13 +161,16 @@ export function getDestPath(context: vscode.ExtensionContext): string {
 }
 
 async function ensureDirectory(dir: string) {
-  let exists = await new Promise(resolve => fs.exists(dir, exists => resolve(exists)));
+  let exists = await new Promise((resolve) => fs.exists(dir, (exists) => resolve(exists)));
   if (!exists) {
     await ensureDirectory(path.dirname(dir));
     await new Promise((resolve, reject) =>
-      fs.mkdir(dir, err => {
-        if (err) reject(err);
-        else resolve();
+      fs.mkdir(dir, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(true);
+        }
       })
     );
   }
