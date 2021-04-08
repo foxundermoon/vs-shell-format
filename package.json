@@ -204,6 +204,6 @@
     "webpack-cli": "3.3.12"
   },
   "dependencies": {
-    "diff": "~4.0.0"
+    "diff": "~5.0.0"
   }
 }
