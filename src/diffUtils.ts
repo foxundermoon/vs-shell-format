@@ -106,7 +106,7 @@ function parseUniDiffs(diffOutput: jsDiff.IUniDiff[]): FilePatch[] {
     let edits: Edit[] = [];
     uniDiff.hunks.forEach((hunk: jsDiff.IHunk) => {
       let startLine = hunk.oldStart;
-      hunk.lines.forEach(line => {
+      hunk.lines.forEach((line) => {
         switch (line.substr(0, 1)) {
           case '-':
             if (edit == null) {
@@ -142,7 +142,7 @@ function parseUniDiffs(diffOutput: jsDiff.IUniDiff[]): FilePatch[] {
   return filePatches;
 }
 
-'use strict';
+('use strict');
 /**
  * Returns a FilePatch object by generating diffs between given oldStr and newStr using the diff module
  *
