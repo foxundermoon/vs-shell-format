@@ -197,7 +197,7 @@
     "prettier": "2.2.1",
     "mocha": "8.3.2",
     "ts-loader": "7.0.5",
-    "typescript": "4.0.3",
+    "typescript": "4.2.4",
     "ts-loader": "8.0.4",
     "vscode": "1.1.37",
     "webpack": "4.44.1",
