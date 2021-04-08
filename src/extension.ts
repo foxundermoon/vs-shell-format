@@ -56,7 +56,7 @@ function isAllowedTextDocument(textDocument: vscode.TextDocument): boolean {
   const effectLanguages = settings.get<string[]>(ConfigItemName.EffectLanguages);
   const { scheme } = textDocument.uri;
   if (effectLanguages) {
-    const checked = effectLanguages.find(e => e === textDocument.languageId);
+    const checked = effectLanguages.find((e) => e === textDocument.languageId);
     if (checked) {
       return scheme === DocumentFilterScheme.File || scheme === DocumentFilterScheme.Untitled;
     }
