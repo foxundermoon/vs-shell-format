@@ -2,6 +2,12 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 7.1.0
+
+- bump shfmt to 3.2.4
+- support apple m1 chip #136
+- support editor config
+
 ## 7.0.1
 
 - bump shfmt to 3.0.1 #65
