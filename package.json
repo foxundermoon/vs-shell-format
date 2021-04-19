@@ -5,7 +5,7 @@
   "version": "7.1.0",
   "publisher": "foxundermoon",
   "engines": {
-    "vscode": "^1.30.0"
+    "vscode": "^1.999.0"
   },
   "categories": [
     "Formatters"
