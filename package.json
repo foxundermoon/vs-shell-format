@@ -197,7 +197,7 @@
     "@types/mocha": "8.2.2",
     "@types/node": "10.17.56",
     "husky": "6.0.0",
-    "lint-staged": "10.5.4",
+    "lint-staged": "11.0.0",
     "prettier": "2.2.1",
     "mocha": "8.3.2",
     "typescript": "4.2.4",
