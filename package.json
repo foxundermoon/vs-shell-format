@@ -198,7 +198,7 @@
     "@types/node": "10.17.60",
     "husky": "6.0.0",
     "lint-staged": "11.0.0",
-    "prettier": "2.2.1",
+    "prettier": "2.3.1",
     "mocha": "8.4.0",
     "typescript": "4.2.4",
     "ts-loader": "9.2.2",
