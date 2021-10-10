@@ -194,8 +194,8 @@
     "format-check": "prettier --check './**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,yaml,html}'"
   },
   "devDependencies": {
+    "@types/node": "14.17.21",
     "@types/mocha": "9.0.0",
-    "@types/node": "14.17.5",
     "husky": "7.0.1",
     "lint-staged": "11.1.2",
     "prettier": "2.3.2",
