@@ -74,8 +74,8 @@ export class Formatter {
     return new Promise((resolve, reject) => {
       try {
         let settings = vscode.workspace.getConfiguration(configurationPrefix);
-        let binPath: string = settings['path'];
-        let flag: string = settings['flag'];
+        let binPath: string = getSettings('path');
+        let flag: string = getSettings('flag');
 
         let shfmtFlags = []; // TODO: Add user configuration
         let shfmtIndent = false;
@@ -387,5 +387,9 @@ function isExecutedFmtCommand(): Boolean {
 
 export function getSettings(key: string) {
   let settings = vscode.workspace.getConfiguration(configurationPrefix);
+  if (key === 'path' && settings[key]) {
+    let workspaceFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0].uri.fsPath;
+    return settings[key].replace(/\${workspaceFolder}/g, workspaceFolder || "");
+  }
   return key !== undefined ? settings[key] : null;
 }
