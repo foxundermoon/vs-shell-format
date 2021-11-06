@@ -45,3 +45,77 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: yarn test
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    needs: unit-test
+    steps:
+      - name: read version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION"
+          PUBLISHED_VERSION=$(curl 'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery' \
+            -H 'origin: https://marketplace.visualstudio.com' \
+            -H 'pragma: no-cache' \
+            -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36' \
+            -H 'content-type: application/json' \
+            -H 'accept: application/json;api-version=5.1-preview.1;excludeUrls=true' \
+            -H 'cache-control: no-cache' \-H 'authority: marketplace.visualstudio.com' \
+            -H 'referer: https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format' \
+            --data-binary '{"assetTypes":null,"filters":[{"criteria":[{"filterType":7,"value":"foxundermoon.shell-format"}],"direction":2,"pageSize":1,"pageNumber":1,"sortBy":0,"sortOrder":0,"pagingToken":null}],"flags":71}' |
+            jq '.results[0].extensions[0].versions[0].version')
+          echo "PUBLISHED_VERSION=$PUBLISHED_VERSION"
+          if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
+            echo 'niddend published'
+            echo "NEED_RELEASE=no" >> $GITHUB_ENV
+          else
+            echo "need publish"
+            echo "NEED_RELEASE=yes" >> $GITHUB_ENV
+          fi
+      - name: mini changelog
+        if: env.NEED_RELEASE == 'yes'
+        id: minichangelog
+        run: |
+          VERSION_REGEX="## $(echo ${{ env.PACKAGE_VERSION }} | sed 's/\./\\./g')"
+          sed -n "/$VERSION_REGEX/,/## /p" CHANGELOG.md | sed '$d' > minichangelog.txt
+          cat minichangelog.txt
+          echo "::set-output name=minichangelog::$(cat minichangelog.txt)
+
+      - name: check changelog
+        if: env.NEED_RELEASE == 'yes'
+        run: |
+          LINE_COUNT=$(cat minichangelog.txt | wc -l)
+          if [ "$LINE_COUNT" -lt 3 ]; then
+            echo Mini changelog is too short. Did you use the wrong version number in CHANGELOG.txt?
+            exit 1
+          fi
+      - name: package
+        if: env.NEED_RELEASE == 'yes'
+        run: |
+          yarn package
+          echo FILE_NAME=$(node -p "require('./package.json').name")-${{ env.PACKAGE_VERSION }}.vsix
+      - name: create github release
+        if: env.NEED_RELEASE == 'yes'
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ env.PACKAGE_VERSION }}
+          release_name: Release ${{ env.PACKAGE_VERSION }}
+          body: |
+            ${{ steps.minichangelog.outputs.minichangelog }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: env.NEED_RELEASE == 'yes'
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./${{ env.FILE_NAME }}
+          asset_name: ${{ env.FILE_NAME }}
+          asset_content_type: application/gzip
