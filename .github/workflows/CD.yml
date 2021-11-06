@@ -57,10 +57,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - uses: actions/checkout@v2
-      - name: Master
-        uses: actions/bin/filter@master
-        with:
-          args: branch master
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
