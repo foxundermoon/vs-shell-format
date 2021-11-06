@@ -92,7 +92,10 @@ jobs:
           VERSION_REGEX="## $(echo ${{ env.PACKAGE_VERSION }} | sed 's/\./\\./g')"
           sed -n "/$VERSION_REGEX/,/## /p" CHANGELOG.md | sed '$d' > minichangelog.txt
           cat minichangelog.txt
-          echo "::set-output name=minichangelog::$(cat minichangelog.txt)
+          # echo "::set-output name=minichangelog::$(cat minichangelog.txt)
+          echo "MINI_CHANGELOG<<EOF" >> $GITHUB_ENV
+          cat minichangelog.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: check changelog
         if: env.NEED_RELEASE == 'yes'
@@ -117,7 +120,7 @@ jobs:
           tag_name: ${{ env.PACKAGE_VERSION }}
           release_name: Release ${{ env.PACKAGE_VERSION }}
           body: |
-            ${{ steps.minichangelog.outputs.minichangelog }}
+            ${{ env.MINI_CHANGELOG }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
