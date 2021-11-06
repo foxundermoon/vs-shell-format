@@ -15,7 +15,7 @@ trigger:
 # no `pr` keyword because we want all PRs to run this
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-20.04
 
 steps:
   # for convenience, we tag CI-produced packages with a version number
