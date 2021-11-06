@@ -132,9 +132,7 @@ jobs:
           asset_name: ${{ env.FILE_NAME }}
           asset_content_type: application/gzip
       - name: Vscode release plugin
-        uses: JCofman/vscodeaction@master
         if: env.NEED_RELEASE == 'yes'
-        env:
-          PUBLISHER_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
-        with:
-          args: publish -p $PUBLISHER_TOKEN
+        run: |
+          # npm install -g vsce
+          npx vsce publish -p ${{ secrets.PUBLISHER_TOKEN }}
