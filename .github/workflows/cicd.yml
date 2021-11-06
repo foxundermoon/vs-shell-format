@@ -45,4 +45,3 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: yarn test
-
