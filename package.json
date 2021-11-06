@@ -19,7 +19,8 @@
     "onLanguage:jvmoptions",
     "onLanguage:properties",
     "onLanguage:spring-boot-properties",
-    "onLanguage:azcli"
+    "onLanguage:azcli",
+    "onLanguage:bats"
   ],
   "main": "./dist/extension",
   "capabilities": {
@@ -137,6 +138,12 @@
         "extensions": [
           ".azcli"
         ]
+      },
+      {
+        "id": "bats",
+        "extensions": [
+          ".bats"
+        ]
       }
     ],
     "configuration": {
@@ -171,7 +178,8 @@
             "gitignore",
             "properties",
             "spring-boot-properties",
-            "azcli"
+            "azcli",
+            "bats"
           ],
           "description": "the trigger effect  on the language"
         },
