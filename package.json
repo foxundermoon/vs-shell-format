@@ -62,7 +62,8 @@
     "bashrc",
     "zshrc",
     "azcli",
-    "azure cli tool"
+    "azure cli tool",
+    "bats"
   ],
   "contributes": {
     "languages": [
@@ -211,8 +212,8 @@
     "typescript": "4.4.4",
     "ts-loader": "9.2.6",
     "vscode": "1.1.37",
-    "webpack-cli": "4.9.1"
-    "webpack": "5.62.1",
+    "webpack-cli": "4.9.1",
+    "webpack": "5.62.1"
   },
   "dependencies": {
     "editorconfig": "^0.15.3",
