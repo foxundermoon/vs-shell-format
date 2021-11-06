@@ -7,7 +7,7 @@ trigger: none
 pr: none
 
 pool:
-  vmImage: ubuntu-16.04
+  vmImage: ubuntu-20.04
 
 steps:
   # release version should be correctly set in package.json

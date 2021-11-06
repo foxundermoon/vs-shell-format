@@ -46,7 +46,7 @@ jobs:
         displayName: 'Run tests'
   - job: Linux
     pool:
-      name: Hosted Ubuntu 1604
+      name: Hosted Ubuntu latest
       demands: npm
     steps:
       - task: NodeTool@0

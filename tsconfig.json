@@ -7,5 +7,5 @@
     "sourceMap": true,
     "rootDir": "."
   },
-  "exclude": ["node_modules", ".vscode-test"]
+  "exclude": ["node_modules", ".vscode-test", ".vscode"]
 }

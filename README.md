@@ -1,5 +1,3 @@
-
-
 [Get it on the VS Code Marketplace!](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
 
 # supported file types or languages
@@ -12,6 +10,7 @@
 | properties  | .properties              | java properties files |
 | jvmoptions  | .vmoptions , jvm.options | jvm options file      |
 | hosts       | /etc/hosts               | hosts file            |
+| bats        | .bats                    | Bats test file        |
 
 ---
 
