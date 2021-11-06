@@ -85,6 +85,8 @@ jobs:
           fi
       - run: yarn
         if: env.NEED_RELEASE == 'yes'
+      - run: npm install -g vsce
+        if: env.NEED_RELEASE == 'yes'
       - name: mini changelog
         if: env.NEED_RELEASE == 'yes'
         id: minichangelog
@@ -137,5 +139,4 @@ jobs:
       - name: Vscode release plugin
         if: env.NEED_RELEASE == 'yes'
         run: |
-          # npm install -g vsce
-          npx vsce publish -p ${{ secrets.PUBLISHER_TOKEN }}
+          vsce publish -p ${{ secrets.PUBLISHER_TOKEN }}
