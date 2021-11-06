@@ -2586,7 +2586,7 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
-vsce@^2.2.0:
+vsce@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/vsce/-/vsce-2.2.0.tgz#8e78b005d27909d2f903744d374a750ce7bf4aa3"
   integrity sha512-Ww4P5MibbMorrRU5Dugd/IhGpq8inCtgxrFko7Yo8tIPlEq9LrjVD9/P7+s6gKMnlpGpvfC6xmR51cPb4Uf+nQ==
