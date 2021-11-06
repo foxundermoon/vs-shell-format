@@ -98,7 +98,6 @@ jobs:
           echo "MINI_CHANGELOG<<EOF" >> $GITHUB_ENV
           cat minichangelog.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
       - name: check changelog
         if: env.NEED_RELEASE == 'yes'
         run: |
@@ -111,7 +110,7 @@ jobs:
         if: env.NEED_RELEASE == 'yes'
         run: |
           yarn package
-          echo FILE_NAME=$(node -p "require('./package.json').name")-${{ env.PACKAGE_VERSION }}.vsix
+          echo FILE_NAME=$(node -p "require('./package.json').name")-${{ env.PACKAGE_VERSION }}.vsix >> $GITHUB_ENV
       - name: create github release
         if: env.NEED_RELEASE == 'yes'
         id: create_release
