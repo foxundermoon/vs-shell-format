@@ -2,7 +2,7 @@
   "name": "shell-format",
   "displayName": "shell-format",
   "description": "shellscript、Dockerfile、properties、gitignore、dotenv、hosts、jvmoptions... DocumentFormat",
-  "version": "7.1.1",
+  "version": "7.2.0",
   "publisher": "foxundermoon",
   "engines": {
     "vscode": "^1.30.0"
@@ -19,7 +19,8 @@
     "onLanguage:jvmoptions",
     "onLanguage:properties",
     "onLanguage:spring-boot-properties",
-    "onLanguage:azcli"
+    "onLanguage:azcli",
+    "onLanguage:bats"
   ],
   "main": "./dist/extension",
   "capabilities": {
@@ -137,6 +138,12 @@
         "extensions": [
           ".azcli"
         ]
+      },
+      {
+        "id": "bats",
+        "extensions": [
+          ".bats"
+        ]
       }
     ],
     "configuration": {
@@ -171,7 +178,8 @@
             "gitignore",
             "properties",
             "spring-boot-properties",
-            "azcli"
+            "azcli",
+            "bats"
           ],
           "description": "the trigger effect  on the language"
         },
@@ -198,7 +206,7 @@
     "@types/node": "14.17.21",
     "@types/mocha": "9.0.0",
     "lint-staged": "11.2.6",
-    "prettier": "2.3.2",
+    "prettier": "2.4.1",
     "mocha": "9.1.3",
     "typescript": "4.3.5",
     "ts-loader": "9.2.6",
