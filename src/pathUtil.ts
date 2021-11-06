@@ -8,6 +8,9 @@ export function getExecutableFileUnderPath(toolName: string) {
     return cachePath;
   }
   toolName = correctBinname(toolName);
+  if (path.isAbsolute(toolName)) {
+    return toolName;
+  }
   let paths = process.env['PATH'].split(path.delimiter);
   for (let i = 0; i < paths.length; i++) {
     let binpath = path.join(paths[i], toolName);
@@ -20,8 +23,11 @@ export function getExecutableFileUnderPath(toolName: string) {
 }
 
 function correctBinname(binname: string) {
-  if (process.platform === 'win32') return binname + '.exe';
-  else return binname;
+  if (process.platform === 'win32' && path.extname(binname) !== '.exe') {
+    return binname + '.exe';
+  } else {
+    return binname;
+  }
 }
 
 export function fileExists(filePath: string): boolean {
