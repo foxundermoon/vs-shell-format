@@ -2,6 +2,10 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 7.2.1
+
+- publish by github action
+
 ## 7.2.0
 
 - bats files support

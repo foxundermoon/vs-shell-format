@@ -215,9 +215,7 @@ export async function checkInstall(context: vscode.ExtensionContext, output: vsc
       });
       // await fs.promises.chmod(destPath, 755);
       output.appendLine(`download success, You can use it successfully!`);
-      output.appendLine(
-        'Suggestions or issues can be submitted here https://git.io/vsshell-issues'
-      );
+      output.appendLine('Start or issues can be submitted here https://git.io/shfmt');
     } catch (err) {
       output.appendLine(`download failed: ${err}`);
     }
