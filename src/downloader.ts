@@ -235,7 +235,7 @@ async function cleanFile(file: string) {
 
 async function checkNeedInstall(dest: string, output: vscode.OutputChannel): Promise<boolean> {
   try {
-    const configPath = vscode.workspace.getConfiguration().get<string>(shellformatPath);
+    const configPath = getSettings('path');
     if (configPath) {
       try {
         await fs.promises.access(configPath, fs.constants.X_OK);
