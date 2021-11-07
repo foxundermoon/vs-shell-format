@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 
 let binPathCache: { [bin: string]: string } = {};
 export function getExecutableFileUnderPath(toolName: string) {
@@ -36,4 +37,12 @@ export function fileExists(filePath: string): boolean {
   } catch (e) {
     return false;
   }
+}
+
+export function substitutePath(filePath: string): string {
+  let workspaceFolder =
+    vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0].uri.fsPath;
+  return filePath
+    .replace(/\${workspaceRoot}/g, workspaceFolder || '')
+    .replace(/\${workspaceFolder}/g, workspaceFolder || '');
 }
