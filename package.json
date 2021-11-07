@@ -211,5 +211,11 @@
   "dependencies": {
     "diff": "~5.0.0",
     "editorconfig": "^0.15.3"
-  }
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
 }
