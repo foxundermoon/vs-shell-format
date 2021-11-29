@@ -2606,10 +2606,10 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
-vsce@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/vsce/-/vsce-2.2.0.tgz#8e78b005d27909d2f903744d374a750ce7bf4aa3"
-  integrity sha512-Ww4P5MibbMorrRU5Dugd/IhGpq8inCtgxrFko7Yo8tIPlEq9LrjVD9/P7+s6gKMnlpGpvfC6xmR51cPb4Uf+nQ==
+vsce@2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/vsce/-/vsce-2.5.1.tgz#8915b6b2ae543d9fed834e2d307f25c83940016e"
+  integrity sha512-vJ+xY93Wv3NhgeriMyIC2oMA+niifOI9XGIqEToIq/rFRoQnXlmO4PSyis/OxBl9hw8OKKC/VcI9CijfFufEkw==
   dependencies:
     azure-devops-node-api "^11.0.1"
     chalk "^2.4.2"
