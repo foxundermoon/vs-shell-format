@@ -490,9 +490,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001286:
-  version "1.0.30001307"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001307.tgz#27a67f13ebc4aa9c977e6b8256a11d5eafb30f27"
-  integrity sha512-+MXEMczJ4FuxJAUp0jvAl6Df0NI/OfW1RWEE61eSmzS7hw6lz4IKutbhbXendwq8BljfFuHtu26VWsg4afQ7Ng==
+  version "1.0.30001308"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001308.tgz#8ee68bbf226ce429297d4328977dfe0c312dd0a4"
+  integrity sha512-cUXbmSTlfG54vdGeA7guriSSAmzyxMWoHNN/DzQWbaLkDlcxrTu0Ox+dA4f8J8/SDXes00oC6iTx+watQYoVfA==
 
 chainsaw@~0.1.0:
   version "0.1.0"
