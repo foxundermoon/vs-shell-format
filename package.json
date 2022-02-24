@@ -146,7 +146,7 @@
             "null"
           ],
           "default": null,
-          "description": "the shfmt fullpath  example[ mac,linux ] /usr/local/bin/shfmt  [windows] C:/bin/shfmt.exe   download fron https://github.com/mvdan/sh/releases"
+          "description": "the shfmt fullpath  example[mac,linux] /usr/local/bin/shfmt  [windows] C:/bin/shfmt.exe   download from https://github.com/mvdan/sh/releases"
         },
         "shellformat.flag": {
           "type": [
@@ -154,7 +154,7 @@
             "null"
           ],
           "default": null,
-          "description": "shfmt -h  to see detail usage , example: -p -bn -ci"
+          "description": "shfmt -h to see detail usage, example: -p -bn -ci"
         },
         "shellformat.effectLanguages": {
           "type": "array",
