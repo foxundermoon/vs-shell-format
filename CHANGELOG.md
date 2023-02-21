@@ -4,6 +4,10 @@ Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how
 
 ## 7.2.4
 
+- fix rating badge
+
+## 7.2.4
+
 - fix badge
 
 ## 7.2.3
