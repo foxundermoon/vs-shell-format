@@ -2,7 +2,7 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 7.2.4
+## 7.2.5
 
 - fix rating badge
 
