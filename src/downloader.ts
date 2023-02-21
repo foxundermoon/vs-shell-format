@@ -103,7 +103,6 @@ export function getArchExtension(): Arch {
     case 'arm64':
       return Arch.arm64;
     case 'ia32':
-    case 'x32':
       return Arch.i386;
     case 'x64':
       return Arch.x64;
