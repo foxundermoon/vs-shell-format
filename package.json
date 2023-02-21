@@ -2,7 +2,7 @@
   "name": "shell-format",
   "displayName": "shell-format",
   "description": "A formatter for shell scripts, Dockerfile, gitignore, dotenv, /etc/hosts, jvmoptions, and other file types",
-  "version": "7.2.4",
+  "version": "7.2.5",
   "publisher": "foxundermoon",
   "engines": {
     "vscode": "^1.36.0"
