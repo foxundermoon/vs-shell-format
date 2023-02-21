@@ -193,11 +193,11 @@
     "format-check": "pretty-quick --check"
   },
   "devDependencies": {
-    "@types/mocha": "9.0.0",
+    "@types/mocha": "9.1.1",
     "@types/node": "16.18.12",
     "husky": "7.0.4",
     "lint-staged": "12.5.0",
-    "mocha": "9.1.3",
+    "mocha": "9.2.2",
     "prettier": "2.5.1",
     "pretty-quick": "3.1.3",
     "ts-loader": "9.2.6",
