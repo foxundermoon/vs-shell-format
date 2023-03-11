@@ -204,7 +204,7 @@
     "vsce": "2.15.0",
     "vscode": "^1.1.37",
     "vscode-test": "^1.6.1",
-    "webpack": "5.75.0",
+    "webpack": "5.76.1",
     "webpack-cli": "4.10.0"
   },
   "dependencies": {
