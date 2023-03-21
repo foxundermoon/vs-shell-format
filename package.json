@@ -209,7 +209,7 @@
   },
   "dependencies": {
     "diff": "~5.1.0",
-    "editorconfig": "^0.15.3"
+    "editorconfig": "^1.0.0"
   },
   "licenses": [
     {
