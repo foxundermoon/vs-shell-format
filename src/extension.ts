@@ -39,16 +39,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   }
-
-  const formatOnSave = vscode.workspace.getConfiguration().get(formatOnSaveConfig);
-  if (formatOnSave) {
-    vscode.workspace.onWillSaveTextDocument((event: vscode.TextDocumentWillSaveEvent) => {
-      // Only on explicit save
-      if (event.reason === 1 && isAllowedTextDocument(event.document)) {
-        vscode.commands.executeCommand(formatDocumentCommand);
-      }
-    });
-  }
 }
 
 function isAllowedTextDocument(textDocument: vscode.TextDocument): boolean {
