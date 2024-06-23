@@ -198,7 +198,7 @@
     "lint-staged": "13.3.0",
     "mocha": "10.2.0",
     "prettier": "3.0.0",
-    "pretty-quick": "3.1.3",
+    "pretty-quick": "3.3.1",
     "ts-loader": "9.4.4",
     "typescript": "5.1.6",
     "vsce": "2.15.0",
