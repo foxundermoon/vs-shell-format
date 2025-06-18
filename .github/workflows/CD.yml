@@ -137,3 +137,7 @@ jobs:
         if: env.NEED_RELEASE == 'yes'
         run: |
           yarn vsce publish -p ${{ secrets.PUBLISHER_TOKEN }}
+      - name: OpenVSX release plugin
+        if: env.NEED_RELEASE == 'yes'
+        run: |
+          yarn ovsx publish -p ${{ secrets.OVSX_PAT }}
