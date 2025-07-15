@@ -5,6 +5,7 @@ Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how
 ## 7.2.6
 
 - bump shfmt to 3.11.0
+- fix CI CD scripts
 
 ## 7.2.5
 
