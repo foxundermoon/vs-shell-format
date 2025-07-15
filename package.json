@@ -194,7 +194,7 @@
   "devDependencies": {
     "@types/mocha": "10.0.1",
     "@types/node": "18.16.19",
-    "husky": "8.0.3",
+    "husky": "9.1.7",
     "lint-staged": "13.3.0",
     "mocha": "10.2.0",
     "ovsx": "^0.10.4",
