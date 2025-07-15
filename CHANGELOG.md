@@ -2,7 +2,7 @@
 
 Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 7.2.6
+## 7.2.7
 
 - bump shfmt to 3.11.0
 - fix CI CD scripts
