@@ -209,7 +209,7 @@
     "webpack-cli": "5.1.4"
   },
   "dependencies": {
-    "diff": "~5.1.0",
+    "diff": "~5.2.0",
     "editorconfig": "^2.0.0"
   },
   "licenses": [
