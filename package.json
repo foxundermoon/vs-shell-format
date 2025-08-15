@@ -68,7 +68,10 @@
         "filenamePatterns": [
           "Dockerfile",
           "Dockerfile.*",
-          "*.dockerfile"
+          "*.dockerfile",
+          "Containerfile",
+          "Containerfile.*",
+          "*.containerfile"
         ]
       },
       {
