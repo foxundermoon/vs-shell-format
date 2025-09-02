@@ -14,9 +14,6 @@ export enum DocumentFilterScheme {
   Untitled = 'untitled',
 }
 
-const formatOnSaveConfig = 'editor.formatOnSave';
-const formatDocumentCommand = 'editor.action.formatDocument';
-
 export const shellformatPath = 'shellformat.path';
 
 export const output = vscode.window.createOutputChannel('shellformat');
@@ -38,16 +35,6 @@ export function activate(context: vscode.ExtensionContext) {
         );
       }
     }
-  }
-
-  const formatOnSave = vscode.workspace.getConfiguration().get(formatOnSaveConfig);
-  if (formatOnSave) {
-    vscode.workspace.onWillSaveTextDocument((event: vscode.TextDocumentWillSaveEvent) => {
-      // Only on explicit save
-      if (event.reason === 1 && isAllowedTextDocument(event.document)) {
-        vscode.commands.executeCommand(formatDocumentCommand);
-      }
-    });
   }
 }
 
